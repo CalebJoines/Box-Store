@@ -1,4 +1,5 @@
 public class Outerwear extends ClothingItem {
+
     private String type;
     private Boolean isWaterproof;
 
