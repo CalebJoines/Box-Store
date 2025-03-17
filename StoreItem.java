@@ -11,6 +11,13 @@ public class StoreItem {
         this.price = price;
         this.returnPolicy = returnPolicy;
     }
+    public StoreItem(String name, double price){
+        this.name = name;
+        this.price = price;
+        this.brand = "Generic";
+        this.description = "";
+        this.returnPolicy = "";
+    }
     public String getName() {return this.name;}
     public double getPrice() {return this.price;}
     public void setPrice(double price) {this.price = price;}
