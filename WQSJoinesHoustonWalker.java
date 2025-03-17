@@ -1,9 +1,17 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 public class WQSJoinesHoustonWalker {
+
     public static void main(String[] args) {
         System.out.println("Welcome to Wilmington Quick Shop.\nWould you like to sell an item?(1) Or add an item?(2):");
         Scanner sc = new Scanner(System.in);
         int input = sc.nextInt();
+
+        ArrayList<FoodItem> foodArray = new ArrayList<FoodItem>();
+        ArrayList<HouseholdItem> HouseholdArray = new ArrayList<HouseholdItem>();
+        ArrayList<ElectronicsItem> ElectronicsArray = new ArrayList<ElectronicsItem>();
+        ArrayList<ClothingItem> ClothingArray = new ArrayList<ClothingItem>();
+
         switch (input) {
             //If we chose to sell an Item
             case 1: {
