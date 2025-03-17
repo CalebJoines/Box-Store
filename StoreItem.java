@@ -11,7 +11,7 @@ public class StoreItem {
         this.price = price;
         this.returnPolicy = returnPolicy;
     }
-    public StoreItem(String name, double price){
+    public StoreItem(String name, double price) {
         this.name = name;
         this.price = price;
         this.brand = "Generic";
