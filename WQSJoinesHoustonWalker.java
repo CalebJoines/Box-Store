@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class WQSJoinesHoustonWalker {
     public static void main(String[] args) {
-        System.out.println("Welcome to Wilmington Quickstop.\n Would you like to sell an item?(1) Or add an item?(2):");
+        System.out.println("Welcome to Wilmington Quickstop.\nWould you like to sell an item?(1) Or add an item?(2):");
         Scanner sc = new Scanner(System.in);
         int input = sc.nextInt();
         switch (input) {
