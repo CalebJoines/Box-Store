@@ -18,6 +18,11 @@ public class StoreItem {
         this.description = "";
         this.returnPolicy = "";
     }
+
+    /**
+     * Whats up gamer
+     * @return
+     */
     public String getName() {return this.name;}
     public double getPrice() {return this.price;}
     public void setPrice(double price) {this.price = price;}
