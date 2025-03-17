@@ -9,5 +9,11 @@ public class Furniture extends HouseholdItem{
         this.material = material;
     }
 
+    public String getMaterial(){
+        return this.material;
+    }
 
+    public void setMaterial(String material){
+        this.material = material;
+    }
 }
