@@ -24,22 +24,39 @@ public class WQSJoinesHoustonWalker {
             //Continue looping until the user confirms they are done adding items.
             //Displays the updated inventory for the item(s) added.
             case 2: {
-                System.out.println("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4):");
-                int typeOfItem = sc.nextInt();
-                switch (typeOfItem){
-                    case 1 : {
+                boolean condition = false;
+                do {
+                    condition = false;
+                    System.out.println("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4):");
+                    int typeOfItem = sc.nextInt();
+                    switch (typeOfItem) {
+                        case 1: {
 
-                    }
-                    case 2 : {
+                            break;
+                        }
+                        case 2: {
 
-                    }
-                    case 3 : {
 
-                    }
-                    case 4 : {
+                            break;
+                        }
+                        case 3: {
 
+
+                            break;
+                        }
+                        case 4: {
+
+
+                            break;
+                        }
+
+                        default:
+                            System.out.println("");
+                            condition = true;
+                            break;
                     }
-                }
+                } while (condition);
+
             }
             default :
                 System.out.println("Invalid selection. Please enter 1 or 2.");
