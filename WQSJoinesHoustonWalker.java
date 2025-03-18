@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class WQSJoinesHoustonWalker {
@@ -8,9 +9,9 @@ public class WQSJoinesHoustonWalker {
         int input = sc.nextInt();
 
         ArrayList<FoodItem> foodArray = new ArrayList<FoodItem>();
-        ArrayList<HouseholdItem> HouseholdArray = new ArrayList<HouseholdItem>();
-        ArrayList<ElectronicsItem> ElectronicsArray = new ArrayList<ElectronicsItem>();
-        ArrayList<ClothingItem> ClothingArray = new ArrayList<ClothingItem>();
+        ArrayList<HouseholdItem> householdArray = new ArrayList<HouseholdItem>();
+        ArrayList<ElectronicsItem> electronicsArray = new ArrayList<ElectronicsItem>();
+        ArrayList<ClothingItem> clothingArray = new ArrayList<ClothingItem>();
 
         switch (input) {
             //If we chose to sell an Item
@@ -45,8 +46,7 @@ public class WQSJoinesHoustonWalker {
                             break;
                         }
                         case 4: {
-
-
+                            displayHouseholdItems(householdArray);
                             break;
                         }
 
@@ -63,4 +63,30 @@ public class WQSJoinesHoustonWalker {
                 break;
         }
     }
+
+    public static void displayHouseholdItems(ArrayList<HouseholdItem> items) {
+        System.out.printf("%-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
+                "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------");
+
+        for (HouseholdItem item : items) {
+            String type = "General";
+            String additionalInfo = "";
+
+            if (item instanceof CleaningSupply) {
+                CleaningSupply cs = (CleaningSupply) item;
+                type = "Cleaning Supply";
+                additionalInfo = "Use: " + cs.getUseMethod() + ", Apply: " + cs.getApplicationMethod();
+            } else if (item instanceof Furniture) {
+                Furniture f = (Furniture) item;
+                type = "Furniture";
+                additionalInfo = "Material: " + f.getMaterial();
+            }
+
+            System.out.printf("%-20s %-15s $%-9.2f %-30s %-15s %-15s %-20s\n",
+                    item.getName(), item.getBrand(), item.getPrice(), item.getDescription(),
+                    item.getReturnPolicy(), type, additionalInfo);
+        }
+    }
+
 }
