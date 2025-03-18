@@ -7,6 +7,7 @@ public class WQSJoinesHoustonWalker {
         System.out.println("Welcome to Wilmington Quick Shop.\nWould you like to sell an item?(1) Or add an item?(2):");
         Scanner sc = new Scanner(System.in);
         int input = sc.nextInt();
+        sc.nextLine();
 
         ArrayList<FoodItem> foodArray = new ArrayList<FoodItem>();
         ArrayList<HouseholdItem> householdArray = new ArrayList<HouseholdItem>();
@@ -41,9 +42,9 @@ public class WQSJoinesHoustonWalker {
             case 2: {
                 boolean condition = true;
                 while (condition) {
-                    condition = false;
                     System.out.println("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4):");
                     int typeOfItem = sc.nextInt();
+                    sc.nextLine();
                     switch (typeOfItem) {
                         case 1: {
 
@@ -56,25 +57,31 @@ public class WQSJoinesHoustonWalker {
                         }
                         case 3: {
 
-
                             break;
                         }
                         case 4: {
                             displayHouseholdItems(householdArray);
                             System.out.println("Would you like to add more of an existing item?(1) Or Create a new item?(2)");
                             int userInput = sc.nextInt();
+                            sc.nextLine();
                             if (userInput == 1){
                                 //add existing item method
                             }
                             else{
-                                //create new item method
+                                createNewHouseholdItem(sc, householdArray);
                             }
                             break;
                         }
                         default:
                             System.out.println("");
-                            condition = true;
                             break;
+                    }
+                    System.out.println("Have you completed adding items? (y/n):");
+                    String completed = sc.nextLine();
+                    if(completed.equalsIgnoreCase("y")){
+                        condition = false;
+                        System.out.println("UPDATED INVENTORY:");
+                        displayHouseholdItems(householdArray);
                     }
                 }
                 break;
@@ -110,5 +117,42 @@ public class WQSJoinesHoustonWalker {
                     item.getReturnPolicy(), type, additionalInfo);
         }
     }
+
+    public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
+        System.out.println("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)):");
+        int typeChoice = sc.nextInt();
+        sc.nextLine(); // Consume newline
+
+        System.out.println("Enter item name:");
+        String name = sc.nextLine();
+        System.out.println("Enter item brand:");
+        String brand = sc.nextLine();
+        System.out.println("Enter item price:");
+        double price = sc.nextDouble();
+        sc.nextLine(); // Consume newline
+        System.out.println("Enter item description:");
+        String description = sc.nextLine();
+        System.out.println("Enter return policy:");
+        String returnPolicy = sc.nextLine();
+
+        if (typeChoice == 1) { // Cleaning Supply
+            System.out.println("Enter application method (e.g., Spray, Pour, Mop):");
+            String applicationMethod = sc.nextLine();
+            System.out.println("Enter use method (e.g., Wipe with cloth, Scrub with sponge):");
+            String useMethod = sc.nextLine();
+
+            householdArray.add(new CleaningSupply(name, description, brand, price, returnPolicy, applicationMethod, useMethod));
+        } else if (typeChoice == 2) { // Furniture
+            System.out.println("Enter furniture material:");
+            String material = sc.nextLine();
+
+            householdArray.add(new Furniture(name, description, brand, price, returnPolicy, material));
+        } else {
+            System.out.println("Invalid choice. Item not added.");
+        }
+
+        System.out.println("Item successfully added to inventory!");
+    }
+
 
 }
