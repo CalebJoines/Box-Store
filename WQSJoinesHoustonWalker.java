@@ -29,7 +29,23 @@ public class WQSJoinesHoustonWalker {
         switch (input) {
             //If we chose to sell an Item
             case 1: {
-                System.out.println("Test");
+                System.out.println("Enter which type of item you wish to purchase; (Food (1), Electronics (2), Clothing (3), or Household (4):");
+                int typeOfItem = sc.nextInt();
+                sc.nextLine();
+                switch (typeOfItem){
+                    case 1: {
+                        break;
+                    }
+                    case 2: {
+                        break;
+                    }
+                    case 3: {
+                        break;
+                    }
+                    case 4: {
+                        break;
+                    }
+                }
                 break;
             }
             //If adding to inventory:
