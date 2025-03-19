@@ -65,15 +65,30 @@ public class WQSJoinesHoustonWalker {
                             int userInput = sc.nextInt();
                             sc.nextLine();
                             if (userInput == 1){
-                                //add existing item method
+                                System.out.println("Enter item name:");
+                                String name = sc.nextLine();
+                                System.out.println("Enter item brand:");
+                                String brand = sc.nextLine();
+                                for (int i=0; i<householdArray.size(); i++){
+                                    if(householdArray.get(i).getName().equalsIgnoreCase(name) && householdArray.get(i).getBrand().equalsIgnoreCase(brand)){
+                                        System.out.println("Please enter how much stock you wish to add:");
+                                        int stockCount = sc.nextInt();
+                                        sc.nextLine();
+                                        householdArray.get(i).addStockCount(stockCount);
+                                        System.out.println(householdArray.get(i).getName()+" has "+householdArray.get(i).getStockCount()+" in stock.");
+                                    }
+                                }
                             }
-                            else{
+                            else if (userInput == 2){
                                 createNewHouseholdItem(sc, householdArray);
                             }
+                            else{
+                                System.out.println("Not a valid input.");
+                            }
+
                             break;
                         }
                         default:
-                            System.out.println("");
                             break;
                     }
                     System.out.println("Have you completed adding items? (y/n):");
@@ -121,7 +136,7 @@ public class WQSJoinesHoustonWalker {
     public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
         System.out.println("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)):");
         int typeChoice = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        sc.nextLine();
 
         System.out.println("Enter item name:");
         String name = sc.nextLine();
