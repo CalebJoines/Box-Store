@@ -1,3 +1,7 @@
+/**
+ * Subclass for shirt items
+ * @author Connor W.
+ */
 public class Shirt extends ClothingItem{
     private String type;
 
@@ -8,5 +12,14 @@ public class Shirt extends ClothingItem{
     public Shirt(String name, double price, String size, String gender, String color, String material, String type) {
         super(name, price, size, gender, color, material);
         this.type = type;
+    }
+
+    public String getType() {return type;}
+
+    public void setType(String type) {this.type = type;}
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
