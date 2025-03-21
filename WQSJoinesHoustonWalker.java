@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class WQSJoinesHoustonWalker {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Wilmington Quick Shop.\nWould you like to sell an item?(1) Or add an item?(2):");
+        System.out.print("Welcome to Wilmington Quick Shop.\nWould you like to sell an item (1), or add an item (2)? ");
         Scanner sc = new Scanner(System.in);
         int input = sc.nextInt();
         sc.nextLine();
@@ -13,7 +13,7 @@ public class WQSJoinesHoustonWalker {
         ArrayList<ElectronicsItem> electronicsArray = new ArrayList<ElectronicsItem>();
         ArrayList<ClothingItem> clothingArray = new ArrayList<ClothingItem>();
 
-        // For testing
+        // For testing FoodItems
         foodArray.add(new Fruit("Apple", "Gala Apple", "Generic", 1.00, "14 days", "4/1/25", true));
 
         // Adding CleaningSupply objects (AI generated)
@@ -66,6 +66,39 @@ public class WQSJoinesHoustonWalker {
                     switch (typeOfItem) {
                         case 1: {
                             displayFoodItems(foodArray);
+                            System.out.print("Would you like to add stock of an existing item (1), or add a new item (2)? ");
+                            int fiAction = sc.nextInt();
+                            // Sink newline
+                            sc.nextLine();
+                            if (fiAction == 1) {
+                                // Restock existing item
+                                System.out.print("Enter item name: ");
+                                String name = sc.nextLine();
+                                System.out.print("Enter item brand: ");
+                                String brand = sc.nextLine();
+
+                                for (FoodItem item: foodArray) {
+                                    String testName = item.getName();
+                                    String testBrand = item.getBrand();
+                                    if (testName.equalsIgnoreCase(name)
+                                        && testBrand.equalsIgnoreCase(brand)) {
+                                        // Item matches (stop iterating here)
+                                        System.out.print("Enter amount of stock to add: ");
+                                        int newStockCount = sc.nextInt();
+                                        sc.nextLine(); // Is this necessary or correct?
+                                        item.addStockCount(newStockCount);
+                                        System.out.printf("%s now has %d stock.\n", name, item.getStockCount());
+                                        // There shouldn't be any duplicates, stop at first match.
+                                        break;
+                                    };
+                                }
+                            } else if (fiAction == 2) {
+                                // Add new item
+                                createNewFoodItem(sc, foodArray);
+                            } else {
+                                // Invalid action
+                                System.out.println("Invalid selection (must be 1 or 2)!");
+                            }
 
                             break;
                         }
@@ -160,6 +193,7 @@ public class WQSJoinesHoustonWalker {
         //
         for (FoodItem item: items) {
             String type = "Food";
+            // Determine type
             if (item instanceof Fruit) {
                 type = "Fruit";
             } else if (item instanceof Vegetable) {
@@ -175,31 +209,31 @@ public class WQSJoinesHoustonWalker {
         }
     }
     public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
-        System.out.println("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)):");
+        System.out.print("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)): ");
         int typeChoice = sc.nextInt();
         sc.nextLine();
 
-        System.out.println("Enter item name:");
+        System.out.print("Enter item name: ");
         String name = sc.nextLine();
-        System.out.println("Enter item brand:");
+        System.out.print("Enter item brand: ");
         String brand = sc.nextLine();
-        System.out.println("Enter item price:");
+        System.out.print("Enter item price: ");
         double price = sc.nextDouble();
         sc.nextLine(); // Consume newline
-        System.out.println("Enter item description:");
+        System.out.print("Enter item description: ");
         String description = sc.nextLine();
-        System.out.println("Enter return policy:");
+        System.out.print("Enter return policy: ");
         String returnPolicy = sc.nextLine();
 
         if (typeChoice == 1) { // Cleaning Supply
-            System.out.println("Enter application method (e.g., Spray, Pour, Mop):");
+            System.out.print("Enter application method (e.g., Spray, Pour, Mop): ");
             String applicationMethod = sc.nextLine();
-            System.out.println("Enter use method (e.g., Wipe with cloth, Scrub with sponge):");
+            System.out.print("Enter use method (e.g., Wipe with cloth, Scrub with sponge): ");
             String useMethod = sc.nextLine();
 
             householdArray.add(new CleaningSupply(name, description, brand, price, returnPolicy, applicationMethod, useMethod));
         } else if (typeChoice == 2) { // Furniture
-            System.out.println("Enter furniture material:");
+            System.out.print("Enter furniture material: ");
             String material = sc.nextLine();
 
             householdArray.add(new Furniture(name, description, brand, price, returnPolicy, material));
@@ -210,5 +244,40 @@ public class WQSJoinesHoustonWalker {
         System.out.println("Item successfully added to inventory!");
     }
 
+    public static void createNewFoodItem(Scanner sc, ArrayList<FoodItem> foodArray) {
+        System.out.print("What type of food item do you want to add, Fruit (1), Vegetable (2), or Shelf-Stable (3)? ");
+        int typeChoice = sc.nextInt();
+        // Absorb newline
+
+        System.out.print("Enter item name: ");
+        String name = sc.nextLine();
+        System.out.print("Enter item brand: ");
+        String brand = sc.nextLine();
+        System.out.print("Enter item price: ");
+        double price = sc.nextDouble();
+        sc.nextLine(); // Consume newline
+        System.out.print("Enter item description: ");
+        String description = sc.nextLine();
+        System.out.print("Enter return policy: ");
+        String returnPolicy = sc.nextLine();
+        System.out.print("Enter expiration date: ");
+        String expirationDate = sc.nextLine();
+        System.out.print("Enter if perishable: ");
+        boolean isPerishable = sc.nextBoolean();
+
+        if (typeChoice == 1) {
+            // Fruit
+            foodArray.add(new Fruit(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
+        } else if (typeChoice == 2) {
+            // Vegetable
+            foodArray.add(new Vegetable(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
+        } else if (typeChoice == 3) {
+            // Shelf-Stable
+            foodArray.add(new ShelfStable(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
+        } else {
+            // Invalid answer
+            System.out.println("Invalid answer! Selection must be 1, 2, or 3!");
+        }
+    }
 
 }
