@@ -13,6 +13,9 @@ public class WQSJoinesHoustonWalker {
         ArrayList<ElectronicsItem> electronicsArray = new ArrayList<ElectronicsItem>();
         ArrayList<ClothingItem> clothingArray = new ArrayList<ClothingItem>();
 
+        // For testing
+        foodArray.add(new Fruit("Apple", "Gala Apple", "Generic", 1.00, "14 days", "4/1/25", true));
+
         // Adding CleaningSupply objects (AI generated)
         householdArray.add(new CleaningSupply("Glass Cleaner", "Cleans windows", "Windex", 5.99, "30 days", "Spray", "Wipe with cloth"));
         householdArray.add(new CleaningSupply("Dish Soap", "Cuts grease", "Dawn", 3.49, "No returns", "Pour", "Scrub with sponge"));
@@ -29,7 +32,7 @@ public class WQSJoinesHoustonWalker {
         switch (input) {
             //If we chose to sell an Item
             case 1: {
-                System.out.println("Enter which type of item you wish to purchase; (Food (1), Electronics (2), Clothing (3), or Household (4):");
+                System.out.print("Enter which type of item you wish to purchase; (Food (1), Electronics (2), Clothing (3), or Household (4): ");
                 int typeOfItem = sc.nextInt();
                 sc.nextLine();
                 switch (typeOfItem){
@@ -57,11 +60,12 @@ public class WQSJoinesHoustonWalker {
             case 2: {
                 boolean condition = true;
                 while (condition) {
-                    System.out.println("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4):");
+                    System.out.print("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4): ");
                     int typeOfItem = sc.nextInt();
                     sc.nextLine();
                     switch (typeOfItem) {
                         case 1: {
+                            displayFoodItems(foodArray);
 
                             break;
                         }
@@ -75,17 +79,17 @@ public class WQSJoinesHoustonWalker {
                         }
                         case 4: {
                             displayHouseholdItems(householdArray);
-                            System.out.println("Would you like to add more of an existing item?(1) Or Create a new item?(2)");
+                            System.out.print("Would you like to add more of an existing item (1), or create a new item (2)? ");
                             int userInput = sc.nextInt();
                             sc.nextLine();
                             if (userInput == 1){
-                                System.out.println("Enter item name:");
+                                System.out.print("Enter item name: ");
                                 String name = sc.nextLine();
-                                System.out.println("Enter item brand:");
+                                System.out.print("Enter item brand: ");
                                 String brand = sc.nextLine();
                                 for (int i=0; i<householdArray.size(); i++){
                                     if(householdArray.get(i).getName().equalsIgnoreCase(name) && householdArray.get(i).getBrand().equalsIgnoreCase(brand)){
-                                        System.out.println("Please enter how much stock you wish to add:");
+                                        System.out.print("Please enter how much stock you wish to add: ");
                                         int stockCount = sc.nextInt();
                                         sc.nextLine();
                                         householdArray.get(i).addStockCount(stockCount);
@@ -105,12 +109,13 @@ public class WQSJoinesHoustonWalker {
                         default:
                             break;
                     }
-                    System.out.println("Have you completed adding items? (y/n):");
+                    System.out.print("Have you completed adding items? (y/n): ");
                     String completed = sc.nextLine();
                     if(completed.equalsIgnoreCase("y")){
                         condition = false;
                         System.out.println("UPDATED INVENTORY:");
                         displayHouseholdItems(householdArray);
+                        displayFoodItems(foodArray);
                     }
                 }
                 break;
@@ -125,7 +130,7 @@ public class WQSJoinesHoustonWalker {
     public static void displayHouseholdItems(ArrayList<HouseholdItem> items) {
         System.out.printf("%-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
                 "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
-        System.out.println("------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("-".repeat(120));
 
         for (HouseholdItem item : items) {
             String type = "General";
@@ -147,6 +152,28 @@ public class WQSJoinesHoustonWalker {
         }
     }
 
+    public static void displayFoodItems(ArrayList<FoodItem> items) {
+        System.out.printf("%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s\n", "Name",
+                          "Brand", "Price", "Description", "Return Policy",
+                          "Expiration Date", "Perishable", "Type");
+        System.out.println("-".repeat(135));
+        //
+        for (FoodItem item: items) {
+            String type = "Food";
+            if (item instanceof Fruit) {
+                type = "Fruit";
+            } else if (item instanceof Vegetable) {
+                type = "Vegetable";
+            } else if (item instanceof ShelfStable) {
+                type = "Shelf Stable";
+            }
+            System.out.printf("%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11b%s\n",
+                              item.getName(), item.getBrand(), item.getPrice(),
+                              item.getDescription(), item.getReturnPolicy(),
+                              item.getExpirationDate(), item.isPerishable(),
+                              type);
+        }
+    }
     public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
         System.out.println("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)):");
         int typeChoice = sc.nextInt();
