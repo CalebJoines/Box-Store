@@ -67,7 +67,7 @@ public class WQSJoinesHoustonWalker {
                         default:
                             // Invalid selection
                             break;
-                    }
+                    } // switch (typeOfItem)
                     break;
                 //If adding to inventory:
                 //Asks what type of item (Food, Electronics, Clothing, or Household).
@@ -110,7 +110,7 @@ public class WQSJoinesHoustonWalker {
                                             System.out.printf("%s now has %d stock.\n", name, item.getStockCount());
                                             // There shouldn't be any duplicates, stop at first match.
                                             break;
-                                        };
+                                        }
                                     }
                                 } else if (fiAction == 2) {
                                     // Add new item
@@ -158,7 +158,7 @@ public class WQSJoinesHoustonWalker {
                                 break;
                             default:
                                 break;
-                        }
+                        } // switch (typeOfItem)
                         System.out.print("Have you completed adding items? (y/n): ");
                         String completed = sc.nextLine();
                         if (completed.equalsIgnoreCase("y")) {
