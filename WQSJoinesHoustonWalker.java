@@ -3,10 +3,8 @@ import java.util.Scanner;
 public class WQSJoinesHoustonWalker {
 
     public static void main(String[] args) {
-        System.out.print("Welcome to Wilmington Quick Shop.\nWould you like to sell an item (1), or add an item (2)? ");
+        System.out.println("Welcome to Wilmington Quick Shop.");
         Scanner sc = new Scanner(System.in);
-        int input = sc.nextInt();
-        sc.nextLine();
 
         ArrayList<FoodItem> foodArray = new ArrayList<FoodItem>();
         ArrayList<HouseholdItem> householdArray = new ArrayList<HouseholdItem>();
@@ -28,136 +26,154 @@ public class WQSJoinesHoustonWalker {
         householdArray.add(new Furniture("Sofa", "Comfortable 3-seater", "La-Z-Boy", 499.99, "120 days", "Fabric"));
         householdArray.add(new Furniture("Bed Frame", "Queen size frame", "Wayfair", 299.99, "45 days", "Metal"));
 
+        boolean exitMainLoop = false;
+        // Used to select item category within action selection
+        int typeOfItem = 0;
 
-        switch (input) {
-            //If we chose to sell an Item
-            case 1: {
-                System.out.print("Enter which type of item you wish to purchase; (Food (1), Electronics (2), Clothing (3), or Household (4): ");
-                int typeOfItem = sc.nextInt();
-                sc.nextLine();
-                switch (typeOfItem){
-                    case 1: {
-                        break;
-                    }
-                    case 2: {
-                        break;
-                    }
-                    case 3: {
-                        break;
-                    }
-                    case 4: {
-                        break;
-                    }
-                }
-                break;
-            }
-            //If adding to inventory:
-            //Asks what type of item (Food, Electronics, Clothing, or Household).
-            //Displays items currently available in inventory for the selected category.
-            //Provides the option to add more of an existing item or create a new item.
-            //Continue looping until the user confirms they are done adding items.
-            //Displays the updated inventory for the item(s) added.
-            case 2: {
-                boolean condition = true;
-                while (condition) {
-                    System.out.print("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4): ");
-                    int typeOfItem = sc.nextInt();
+        while (!exitMainLoop) {
+            System.out.print("Would you like to sell an item (1), add an item (2), or exit (0)? ");
+            int input = sc.nextInt();
+            sc.nextLine();
+            switch (input) {
+                case 0:
+                    // Exit program
+                    exitMainLoop = true;
+                    break;
+                case 1:
+                    // Sell an item
+                    System.out.print("Enter which type of item you wish to purchase; (Food (1), Electronics (2), Clothing (3), or Household (4): ");
+                    typeOfItem = sc.nextInt();
                     sc.nextLine();
                     switch (typeOfItem) {
-                        case 1: {
-                            displayFoodItems(foodArray);
-                            System.out.print("Would you like to add stock of an existing item (1), or add a new item (2)? ");
-                            int fiAction = sc.nextInt();
-                            // Sink newline
-                            sc.nextLine();
-                            if (fiAction == 1) {
-                                // Restock existing item
-                                System.out.print("Enter item name: ");
-                                String name = sc.nextLine();
-                                System.out.print("Enter item brand: ");
-                                String brand = sc.nextLine();
+                        case 1:
+                            // FoodItem
+                            /* Idea for control flow:
+                             * 1. Print item list with numbers assigned to each item
+                             * 2. Prompt for user to input a number to pick an item
+                             * 3. Display that item on its own, and verify correct selection
+                             * 4. Prompt for number to buy
+                             * 5. Attempt to remove item, give error if there isn't enough stock.
+                             */
+                            break;
+                        case 2:
+                            // ElectronicsItem
+                            break;
+                        case 3:
+                            // ClothingItem
+                            break;
+                        case 4:
+                            // HouseholdItem
+                            break;
+                        default:
+                            // Invalid selection
+                            break;
+                    }
+                    break;
+                //If adding to inventory:
+                //Asks what type of item (Food, Electronics, Clothing, or Household).
+                //Displays items currently available in inventory for the selected category.
+                //Provides the option to add more of an existing item or create a new item.
+                //Continue looping until the user confirms they are done adding items.
+                //Displays the updated inventory for the item(s) added.
+                case 2:
+                    // Create item or add to inventory
+                    boolean condition = true;
+                    while (condition) {
+                        System.out.print("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4): ");
+                        typeOfItem = sc.nextInt();
+                        sc.nextLine();
+                        switch (typeOfItem) {
+                            case 1:
+                                // FoodItem
+                                displayFoodItems(foodArray);
+                                System.out.print("Would you like to add stock of an existing item (1), or add a new item (2)? ");
+                                int fiAction = sc.nextInt();
+                                // Sink newline
+                                sc.nextLine();
+                                if (fiAction == 1) {
+                                    // Restock existing item
+                                    System.out.print("Enter item name: ");
+                                    String name = sc.nextLine();
+                                    System.out.print("Enter item brand: ");
+                                    String brand = sc.nextLine();
 
-                                for (FoodItem item: foodArray) {
-                                    String testName = item.getName();
-                                    String testBrand = item.getBrand();
-                                    if (testName.equalsIgnoreCase(name)
-                                        && testBrand.equalsIgnoreCase(brand)) {
-                                        // Item matches (stop iterating here)
-                                        System.out.print("Enter amount of stock to add: ");
-                                        int newStockCount = sc.nextInt();
-                                        sc.nextLine(); // Is this necessary or correct?
-                                        item.addStockCount(newStockCount);
-                                        System.out.printf("%s now has %d stock.\n", name, item.getStockCount());
-                                        // There shouldn't be any duplicates, stop at first match.
-                                        break;
-                                    };
+                                    for (FoodItem item: foodArray) {
+                                        String testName = item.getName();
+                                        String testBrand = item.getBrand();
+                                        if (testName.equalsIgnoreCase(name)
+                                            && testBrand.equalsIgnoreCase(brand)) {
+                                            // Item matches (stop iterating here)
+                                            System.out.print("Enter amount of stock to add: ");
+                                            int newStockCount = sc.nextInt();
+                                            sc.nextLine(); // Is this necessary or correct?
+                                            item.addStockCount(newStockCount);
+                                            System.out.printf("%s now has %d stock.\n", name, item.getStockCount());
+                                            // There shouldn't be any duplicates, stop at first match.
+                                            break;
+                                        };
+                                    }
+                                } else if (fiAction == 2) {
+                                    // Add new item
+                                    createNewFoodItem(sc, foodArray);
+                                } else {
+                                    // Invalid action
+                                    System.out.println("Invalid selection (must be 1 or 2)!");
                                 }
-                            } else if (fiAction == 2) {
-                                // Add new item
-                                createNewFoodItem(sc, foodArray);
-                            } else {
-                                // Invalid action
-                                System.out.println("Invalid selection (must be 1 or 2)!");
-                            }
 
-                            break;
-                        }
-                        case 2: {
-
-                            break;
-                        }
-                        case 3: {
-
-                            break;
-                        }
-                        case 4: {
-                            displayHouseholdItems(householdArray);
-                            System.out.print("Would you like to add more of an existing item (1), or create a new item (2)? ");
-                            int userInput = sc.nextInt();
-                            sc.nextLine();
-                            if (userInput == 1){
-                                System.out.print("Enter item name: ");
-                                String name = sc.nextLine();
-                                System.out.print("Enter item brand: ");
-                                String brand = sc.nextLine();
-                                for (int i=0; i<householdArray.size(); i++){
-                                    if(householdArray.get(i).getName().equalsIgnoreCase(name) && householdArray.get(i).getBrand().equalsIgnoreCase(brand)){
-                                        System.out.print("Please enter how much stock you wish to add: ");
-                                        int stockCount = sc.nextInt();
-                                        sc.nextLine();
-                                        householdArray.get(i).addStockCount(stockCount);
-                                        System.out.println(householdArray.get(i).getName()+" has "+householdArray.get(i).getStockCount()+" in stock.");
+                                break;
+                            case 2:
+                                // ElectronicsItem
+                                break;
+                            case 3:
+                                // ClothingItem
+                                break;
+                            case 4:
+                                // HouseholdItem
+                                displayHouseholdItems(householdArray);
+                                System.out.print("Would you like to add more of an existing item (1), or create a new item (2)? ");
+                                int userInput = sc.nextInt();
+                                sc.nextLine();
+                                if (userInput == 1) {
+                                    System.out.print("Enter item name: ");
+                                    String name = sc.nextLine();
+                                    System.out.print("Enter item brand: ");
+                                    String brand = sc.nextLine();
+                                    for (int i=0; i<householdArray.size(); i++) {
+                                        HouseholdItem testItem = householdArray.get(i);
+                                        if (testItem.getName().equalsIgnoreCase(name) && testItem.getBrand().equalsIgnoreCase(brand)) {
+                                            System.out.print("Please enter how much stock you wish to add: ");
+                                            int stockCount = sc.nextInt();
+                                            sc.nextLine();
+                                            testItem.addStockCount(stockCount);
+                                            System.out.println(testItem.getName() + " has " + testItem.getStockCount() + " in stock.");
+                                        }
                                     }
                                 }
-                            }
-                            else if (userInput == 2){
-                                createNewHouseholdItem(sc, householdArray);
-                            }
-                            else{
-                                System.out.println("Not a valid input.");
-                            }
-
-                            break;
+                                else if (userInput == 2) {
+                                    createNewHouseholdItem(sc, householdArray);
+                                }
+                                else {
+                                    System.out.println("Not a valid input.");
+                                }
+                                break;
+                            default:
+                                break;
                         }
-                        default:
-                            break;
-                    }
-                    System.out.print("Have you completed adding items? (y/n): ");
-                    String completed = sc.nextLine();
-                    if(completed.equalsIgnoreCase("y")){
-                        condition = false;
-                        System.out.println("UPDATED INVENTORY:");
-                        displayHouseholdItems(householdArray);
-                        displayFoodItems(foodArray);
-                    }
-                }
-                break;
-            }
-            default:
-                System.out.println("Invalid selection. Please enter 1 or 2.");
-                break;
-        }
-
+                        System.out.print("Have you completed adding items? (y/n): ");
+                        String completed = sc.nextLine();
+                        if (completed.equalsIgnoreCase("y")) {
+                            condition = false;
+                            System.out.println("UPDATED INVENTORY:");
+                            displayHouseholdItems(householdArray);
+                            displayFoodItems(foodArray);
+                        }
+                    } // End item-addition loop
+                    break;
+                default:
+                    System.out.println("Invalid selection. Please enter 0, 1, or 2.");
+                    break;
+            } // switch (input)
+        } // while (!exitMainLoop)
     }
 
     public static void displayHouseholdItems(ArrayList<HouseholdItem> items) {
