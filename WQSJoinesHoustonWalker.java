@@ -54,6 +54,47 @@ public class WQSJoinesHoustonWalker {
                              * 4. Prompt for number to buy
                              * 5. Attempt to remove item, give error if there isn't enough stock.
                              */
+                            displayFoodItemsWithNumbers(foodArray);
+                            System.out.print("Which item to purchase (input number here): ");
+                            // Note: This number starts from 1.
+                            int fiIndex = sc.nextInt();
+
+                            if (fiIndex > foodArray.size() || fiIndex <= 0) {
+                                // Out-of-bounds
+                                System.out.println("That is an invalid item number!");
+                                break;
+                            }
+
+                            FoodItem fiPItem = foodArray.get(fiIndex - 1);
+                            System.out.printf("%s has %d stock.\n",
+                                              fiItem.getName(),
+                                              fiItem.getStockCount());
+
+                            System.out.print("Enter amount to purchase: ");
+                            // Purchase count
+                            int fiPurCount = sc.nextInt();
+                            sc.nextLine();
+                            System.out.print("Continue with purchase [y/n]? ");
+                            String confirm = sc.nextLine();
+                            if (confirm.equalsIgnoreCase("n")) {
+                                // Do *not* purchase
+                                System.out.println("Cancelled.");
+                            } else if (confirm.equalsIgnoreCase("y") {
+                                // Do purchase
+                                boolean success = fiItem.subtractStockCount(fiPurCount);
+                                if (!success) {
+                                    // Not enough stock
+                                    System.out.println("There is not enough stock for that purchase.");
+                                    break;
+                                }
+
+                                System.out.printf("%s now has %d stock.\n",
+                                                  fiItem.getName(),
+                                                  fiItem.getStockCount());
+                            } else {
+                                // Invalid input
+                                System.out.println("Answer must be y or n.");
+                            }
                             break;
                         case 2:
                             // ElectronicsItem
