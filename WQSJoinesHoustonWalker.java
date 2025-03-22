@@ -224,6 +224,39 @@ public class WQSJoinesHoustonWalker {
                               type);
         }
     }
+
+    /**
+     * Prints a table of FoodItems with numbers to allow selection.
+     * Note: It displays numbers starting from 1.
+     *
+     * @param items The FoodItems to display
+     */
+    public static void displayFoodItemsWithNumbers(ArrayList<FoodItem> items) {
+        System.out.printf("%-7s%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s\n",
+                          "Number", "Name", "Brand", "Price", "Description",
+                          "Return Policy", "Expiration Date", "Perishable",
+                          "Type");
+        System.out.println("-".repeat(142));
+        //
+        for (int i = 0; i < items.size(); i++) {
+            FoodItem item = items.get(i);
+            String type = "Food";
+            // Determine type
+            if (item instanceof Fruit) {
+                type = "Fruit";
+            } else if (item instanceof Vegetable) {
+                type = "Vegetable";
+            } else if (item instanceof ShelfStable) {
+                type = "Shelf Stable";
+            }
+            System.out.printf("%-7d%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11b%s\n",
+                              i + 1, item.getName(), item.getBrand(),
+                              item.getPrice(), item.getDescription(),
+                              item.getReturnPolicy(), item.getExpirationDate(),
+                              item.isPerishable(), type);
+        }
+    }
+
     public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
         System.out.print("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)): ");
         int typeChoice = sc.nextInt();
