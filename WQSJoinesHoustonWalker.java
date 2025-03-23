@@ -13,6 +13,7 @@ public class WQSJoinesHoustonWalker {
 
         // For testing FoodItems
         foodArray.add(new Fruit("Apple", "Gala Apple", "Generic", 1.00, "14 days", "4/1/25", true));
+        foodArray.add(new Vegetable("Cucumber", "Cucumber", "Generic", 1.00, "14 days", "4/1/25", true));
 
         // Adding CleaningSupply objects (AI generated)
         householdArray.add(new CleaningSupply("Glass Cleaner", "Cleans windows", "Windex", 5.99, "30 days", "Spray", "Wipe with cloth"));
@@ -31,7 +32,7 @@ public class WQSJoinesHoustonWalker {
         int typeOfItem = 0;
 
         while (!exitMainLoop) {
-            System.out.print("Would you like to sell an item (1), add an item (2), or exit (0)? ");
+            System.out.print("Would you like to purchase an item (1), add an item (2), or exit (0)? ");
             int input = sc.nextInt();
             sc.nextLine();
             switch (input) {
@@ -41,18 +42,28 @@ public class WQSJoinesHoustonWalker {
                     break;
                 case 1:
                     // Sell an item
-                    System.out.print("Enter which type of item you wish to purchase; (Food (1), Electronics (2), Clothing (3), or Household (4): ");
+                    System.out.print("Enter which type of item you wish to purchase (Food (1), Electronics (2), Clothing (3), or Household (4)): ");
                     typeOfItem = sc.nextInt();
                     sc.nextLine();
+
+                    /* This is supposed to work like so:
+                     * 1. Ask which item type to purchase
+                     * 2. Display available options in a table
+                     * 3. Allow adding multiple items to a cart until "check out"
+                     * 4. Display "order summary" grouped by type and confirm checkout
+                     * 5. Calculate total, which includes tax (differs between food and non-food items)
+                     * 6. Display updated inventory for sold items.
+                     * 7. Display return policy for sold items.
+                     *
+                     * We could have per-category carts, and a private class which holds a StoreItem and
+                     * the amount in cart (to delay inventory changes until checkout).
+                     */
+
                     switch (typeOfItem) {
                         case 1:
                             // FoodItem
-                            /* Idea for control flow:
-                             * 1. Print item list with numbers assigned to each item
-                             * 2. Prompt for user to input a number to pick an item
-                             * 3. Display that item on its own, and verify correct selection
-                             * 4. Prompt for number to buy
-                             * 5. Attempt to remove item, give error if there isn't enough stock.
+                            /* This is a preliminary implementation of purchasing.
+                             * Note: This needs to be refactored to support the cart, and looping.
                              */
                             displayFoodItemsWithNumbers(foodArray);
                             System.out.print("Which item to purchase (input number here): ");
@@ -66,6 +77,15 @@ public class WQSJoinesHoustonWalker {
                             }
 
                             FoodItem fiItem = foodArray.get(fiIndex - 1);
+
+                            if (fiItem.getStockCount() == 0) {
+                                // Can't buy something which is out of stock.
+                                System.out.printf("%s is out of stock.\n",
+                                                  fiItem.getName());
+                                sc.nextLine(); // Consume newline
+                                break;
+                            }
+
                             System.out.printf("%s has %d stock.\n",
                                               fiItem.getName(),
                                               fiItem.getStockCount());
@@ -120,7 +140,7 @@ public class WQSJoinesHoustonWalker {
                     // Create item or add to inventory
                     boolean condition = true;
                     while (condition) {
-                        System.out.print("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4): ");
+                        System.out.print("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4)): ");
                         typeOfItem = sc.nextInt();
                         sc.nextLine();
                         switch (typeOfItem) {
@@ -206,6 +226,7 @@ public class WQSJoinesHoustonWalker {
                             condition = false;
                             System.out.println("UPDATED INVENTORY:");
                             displayHouseholdItems(householdArray);
+                            System.out.println();
                             displayFoodItems(foodArray);
                         }
                     } // End item-addition loop
