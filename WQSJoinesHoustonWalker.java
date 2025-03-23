@@ -65,7 +65,7 @@ public class WQSJoinesHoustonWalker {
                                 break;
                             }
 
-                            FoodItem fiPItem = foodArray.get(fiIndex - 1);
+                            FoodItem fiItem = foodArray.get(fiIndex - 1);
                             System.out.printf("%s has %d stock.\n",
                                               fiItem.getName(),
                                               fiItem.getStockCount());
@@ -79,7 +79,7 @@ public class WQSJoinesHoustonWalker {
                             if (confirm.equalsIgnoreCase("n")) {
                                 // Do *not* purchase
                                 System.out.println("Cancelled.");
-                            } else if (confirm.equalsIgnoreCase("y") {
+                            } else if (confirm.equalsIgnoreCase("y")) {
                                 // Do purchase
                                 boolean success = fiItem.subtractStockCount(fiPurCount);
                                 if (!success) {
