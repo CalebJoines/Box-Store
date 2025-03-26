@@ -1,6 +1,43 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+
 public class WQSJoinesHoustonWalker {
+    /**
+     * A class to hold a StoreItem in cart and its purchase count.
+     * This is used to implement a cart more easily.
+     * @author Landon H.
+     */
+    private static class CartItem {
+        // Note: The static allows it to be used like other classes without exposing externally.
+        int numInCart;
+        StoreItem item;
+        /**
+         * Create a CartItem with a set amount in cart.
+         * @param item The StoreItem to add to cart.
+         * @param numInCart The amount of the item to add to cart.
+         */
+        public CartItem(StoreItem item, int numInCart) {
+            this.item = item;
+            // This must be >= 1.
+            this.numInCart = numInCart;
+        }
+
+        /**
+         * Retrieve the amount in cart.
+         * @return Number of item in cart.
+         */
+        public int getNumInCart() {
+            return numInCart;
+        }
+
+        /**
+         * Retrieve the item in cart.
+         * @return The StoreItem in cart.
+         */
+        public StoreItem getItem() {
+            return item;
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println("Welcome to Wilmington Quick Shop.");
@@ -42,93 +79,143 @@ public class WQSJoinesHoustonWalker {
                     break;
                 case 1:
                     // Sell an item
-                    System.out.print("Enter which type of item you wish to purchase (Food (1), Electronics (2), Clothing (3), or Household (4)): ");
-                    typeOfItem = sc.nextInt();
-                    sc.nextLine();
+                    // Set to false to continue to checkout.
+                    boolean continueShopping = true;
+                    // The carts for each category, reset at each invocation.
+                    ArrayList<CartItem> foodCart = new ArrayList<CartItem>();
+                    ArrayList<CartItem> householdCart = new ArrayList<CartItem>();
+                    ArrayList<CartItem> electronicsCart = new ArrayList<CartItem>();
+                    ArrayList<CartItem> clothingCart = new ArrayList<CartItem>();
+                    while (continueShopping) {
+                        System.out.print("Enter which type of item you wish to purchase (Food (1), Electronics (2), Clothing (3), or Household (4)), or 0 to check out: ");
+                        typeOfItem = sc.nextInt();
+                        sc.nextLine();
 
-                    /* This is supposed to work like so:
-                     * 1. Ask which item type to purchase
-                     * 2. Display available options in a table
-                     * 3. Allow adding multiple items to a cart until "check out"
-                     * 4. Display "order summary" grouped by type and confirm checkout
-                     * 5. Calculate total, which includes tax (differs between food and non-food items)
-                     * 6. Display updated inventory for sold items.
-                     * 7. Display return policy for sold items.
-                     *
-                     * We could have per-category carts, and a private class which holds a StoreItem and
-                     * the amount in cart (to delay inventory changes until checkout).
-                     */
+                        /* This is supposed to work like so:
+                         * 1. Ask which item type to purchase
+                         * 2. Display available options in a table
+                         * 3. Allow adding multiple items to a cart until "check out"
+                         * 4. Display "order summary" grouped by type and confirm checkout
+                         * 5. Calculate total, which includes tax (differs between food and non-food items)
+                         * 6. Display updated inventory for sold items.
+                         * 7. Display return policy for sold items.
+                         *
+                         * We could have per-category carts, and a private class which holds a StoreItem and
+                         * the amount in cart (to delay inventory changes until checkout).
+                         */
 
-                    switch (typeOfItem) {
-                        case 1:
-                            // FoodItem
-                            /* This is a preliminary implementation of purchasing.
-                             * Note: This needs to be refactored to support the cart, and looping.
-                             */
-                            displayFoodItemsWithNumbers(foodArray);
-                            System.out.print("Which item to purchase (input number here): ");
-                            // Note: This number starts from 1.
-                            int fiIndex = sc.nextInt();
-
-                            if (fiIndex > foodArray.size() || fiIndex <= 0) {
-                                // Out-of-bounds
-                                System.out.println("That is an invalid item number!");
+                        switch (typeOfItem) {
+                            case 0:
+                                // Check out
+                                continueShopping = false;
                                 break;
-                            }
+                            case 1:
+                                // FoodItem
+                                /* This is a preliminary implementation of purchasing.
+                                 * Note: This needs to be refactored to support the cart, and looping.
+                                 */
+                                displayFoodItemsWithNumbers(foodArray);
+                                System.out.print("Which item to purchase (input number here): ");
+                                // Note: This number starts from 1.
+                                int fiIndex = sc.nextInt();
 
-                            FoodItem fiItem = foodArray.get(fiIndex - 1);
-
-                            if (fiItem.getStockCount() == 0) {
-                                // Can't buy something which is out of stock.
-                                System.out.printf("%s is out of stock.\n",
-                                                  fiItem.getName());
-                                sc.nextLine(); // Consume newline
-                                break;
-                            }
-
-                            System.out.printf("%s has %d stock.\n",
-                                              fiItem.getName(),
-                                              fiItem.getStockCount());
-
-                            System.out.print("Enter amount to purchase: ");
-                            // Purchase count
-                            int fiPurCount = sc.nextInt();
-                            sc.nextLine();
-                            System.out.print("Continue with purchase [y/n]? ");
-                            String confirm = sc.nextLine();
-                            if (confirm.equalsIgnoreCase("n")) {
-                                // Do *not* purchase
-                                System.out.println("Cancelled.");
-                            } else if (confirm.equalsIgnoreCase("y")) {
-                                // Do purchase
-                                boolean success = fiItem.subtractStockCount(fiPurCount);
-                                if (!success) {
-                                    // Not enough stock
-                                    System.out.println("There is not enough stock for that purchase.");
+                                if (fiIndex > foodArray.size() || fiIndex <= 0) {
+                                    // Out-of-bounds
+                                    System.out.println("That is an invalid item number!");
                                     break;
                                 }
 
-                                System.out.printf("%s now has %d stock.\n",
+                                FoodItem fiItem = foodArray.get(fiIndex - 1);
+
+                                if (fiItem.getStockCount() == 0) {
+                                    // Can't buy something which is out of stock.
+                                    System.out.printf("%s is out of stock.\n",
+                                                      fiItem.getName());
+                                    sc.nextLine(); // Consume newline
+                                    break;
+                                }
+
+                                System.out.printf("%s has %d stock.\n",
                                                   fiItem.getName(),
                                                   fiItem.getStockCount());
+
+                                System.out.print("Enter amount to purchase: ");
+                                // Purchase count
+                                int fiPurCount = sc.nextInt();
+                                sc.nextLine();
+                                if (fiPurCount <= 0) {
+                                    System.out.println("Invalid answer. You must purchase at least 1!");
+                                    break;
+                                }
+                                // Add to cart.
+                                CartItem fiCartItem = new CartItem(fiItem, fiPurCount);
+                                foodCart.add(fiCartItem);
+                                break;
+                            case 2:
+                                // ElectronicsItem
+                                break;
+                            case 3:
+                                // ClothingItem
+                                break;
+                            case 4:
+                                // HouseholdItem
+                                break;
+                            default:
+                                // Invalid selection
+                                break;
+                        } // switch (typeOfItem)
+                    } // while (continueShopping)
+                    // Here we perform check out.
+                    System.out.println("Items in cart:");
+                    // Note: Implement taxes later.
+                    double foodSubtotal = 0;
+                    double nonFoodSubtotal = 0;
+
+                    System.out.println("Food Items:");
+                    for (CartItem cartItem: foodCart) {
+                        StoreItem item = cartItem.getItem();
+                        int numInCart = cartItem.getNumInCart();
+                        double cost = item.getPrice();
+
+                        System.out.printf("%s (%d, $%.2f each)\n",
+                                          item.getName(), numInCart, cost);
+                        foodSubtotal += cost * numInCart;
+                    }
+                    // Insert code for other categories here.
+                    System.out.printf("Subtotal: $%.2f\n",
+                                      foodSubtotal + nonFoodSubtotal);
+                    // Calculate totals with tax here. Food is different from others.
+                    // Confirm purchase
+                    System.out.print("Continue with purchase [y/n]? ");
+                    String confirm = sc.nextLine();
+                    if (confirm.equalsIgnoreCase("n")) {
+                        // Don't purchase
+                        System.out.println("Cancelled.");
+                    } else if (confirm.equalsIgnoreCase("y")) {
+                        // Continue with purchase
+                        for (CartItem ci: foodCart) {
+                            // FoodItem
+                            // Use similar code for the other carts.
+                            StoreItem item = ci.getItem();
+                            int numInCart = ci.getNumInCart();
+                            boolean success = item.subtractStockCount(numInCart);
+                            if (success) {
+                                // Enough stock (placed for debugging).
+                                System.out.printf("Item %s now has %d stock. Return policy: %s\n",
+                                                  item.getName(), item.getStockCount(),
+                                                  item.getReturnPolicy());
                             } else {
-                                // Invalid input
-                                System.out.println("Answer must be y or n.");
+                                // Not enough stock
+                                System.out.printf("There is not enough stock to purchase %s.\n",
+                                                  item.getName());
                             }
-                            break;
-                        case 2:
-                            // ElectronicsItem
-                            break;
-                        case 3:
-                            // ClothingItem
-                            break;
-                        case 4:
-                            // HouseholdItem
-                            break;
-                        default:
-                            // Invalid selection
-                            break;
-                    } // switch (typeOfItem)
+                        }
+                        // Insert code to purchase other categories here.
+                    } else {
+                        // Invalid input
+                        System.out.println("Answer must be y or n.");
+                    }
+                    // Print inventory here. Include the amount in stock?
                     break;
                 //If adding to inventory:
                 //Asks what type of item (Food, Electronics, Clothing, or Household).
