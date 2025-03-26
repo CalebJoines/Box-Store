@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * A driver class for the inventory program.
+ */
 public class WQSJoinesHoustonWalker {
     /**
      * A class to hold a StoreItem in cart and its purchase count.
@@ -39,6 +42,11 @@ public class WQSJoinesHoustonWalker {
         }
     }
 
+    /**
+     * The entrypoint for the inventory program.
+     *
+     * @param args List of command-line arguments (unused)
+     */
     public static void main(String[] args) {
         System.out.println("Welcome to Wilmington Quick Shop.");
         Scanner sc = new Scanner(System.in);
@@ -325,6 +333,11 @@ public class WQSJoinesHoustonWalker {
         } // while (!exitMainLoop)
     }
 
+    /**
+     * Print information on HouseholdItems in a table.
+     *
+     * @param items The HouseholdItems array list to display.
+     */
     public static void displayHouseholdItems(ArrayList<HouseholdItem> items) {
         System.out.printf("%-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
                 "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
@@ -350,6 +363,11 @@ public class WQSJoinesHoustonWalker {
         }
     }
 
+    /**
+     * Print food items in a table.
+     *
+     * @param items The array list of food items to display.
+     */
     public static void displayFoodItems(ArrayList<FoodItem> items) {
         System.out.printf("%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s\n", "Name",
                           "Brand", "Price", "Description", "Return Policy",
@@ -406,6 +424,12 @@ public class WQSJoinesHoustonWalker {
         }
     }
 
+    /**
+     * Add a new HouseholdItem to inventory.
+     *
+     * @param sc The Scanner to read input from
+     * @param householdArray The array to add the household item to
+     */
     public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
         System.out.print("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)): ");
         int typeChoice = sc.nextInt();
@@ -442,6 +466,12 @@ public class WQSJoinesHoustonWalker {
         System.out.println("Item successfully added to inventory!");
     }
 
+    /**
+     * Add a new food item to inventory.
+     *
+     * @param sc The Scanner to read input from
+     * @param foodArray The array to add the new food item to
+     */
     public static void createNewFoodItem(Scanner sc, ArrayList<FoodItem> foodArray) {
         System.out.print("What type of food item do you want to add, Fruit (1), Vegetable (2), or Shelf-Stable (3)? ");
         int typeChoice = sc.nextInt();
