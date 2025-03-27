@@ -3,6 +3,9 @@ import java.util.Scanner;
 
 /**
  * A driver class for the inventory program.
+ * @author Landon H.
+ * @author Caleb J.
+ * @author Connor W.
  */
 public class WQSJoinesHoustonWalker {
     /**
@@ -41,6 +44,10 @@ public class WQSJoinesHoustonWalker {
             return item;
         }
     }
+
+    // For expedience I'm implementing taxes as constants here.
+    private static final double NONFOOD_TAX = 0.05; // 5% sales tax on non-food as example
+    private static final double FOOD_TAX = 0.02; // 2% sales tax on food as example
 
     /**
      * The entrypoint for the inventory program.
@@ -133,9 +140,6 @@ public class WQSJoinesHoustonWalker {
                                 break;
                             case 1:
                                 // FoodItem
-                                /* This is a preliminary implementation of purchasing.
-                                 * Note: This needs to be refactored to support the cart, and looping.
-                                 */
                                 displayFoodItemsWithNumbers(foodArray);
                                 System.out.print("Which item to purchase (input number here): ");
                                 // Note: This number starts from 1.
@@ -175,9 +179,6 @@ public class WQSJoinesHoustonWalker {
                                 break;
                             case 2:
                                 // ElectronicsItem
-                                /* This is a preliminary implementation of purchasing.
-                                 * Note: This needs to be refactored to support the cart, and looping.
-                                 */
                                 displayElectronicsItemsWithNumbers(electronicsArray);
                                 System.out.print("Which item to purchase (input number here): ");
                                 // Note: This number starts from 1.
@@ -217,9 +218,6 @@ public class WQSJoinesHoustonWalker {
                                 break;
                             case 3:
                                 // ClothingItem
-                                /* This is a preliminary implementation of purchasing.
-                                 * Note: This needs to be refactored to support the cart, and looping.
-                                 */
                                 displayClothingItemsWithNumbers(clothingArray);
                                 System.out.print("Which item to purchase (input number here): ");
                                 // Note: This number starts from 1.
@@ -259,9 +257,6 @@ public class WQSJoinesHoustonWalker {
                                 break;
                             case 4:
                                 // HouseholdItem
-                                /* This is a preliminary implementation of purchasing.
-                                 * Note: This needs to be refactored to support the cart, and looping.
-                                 */
                                 displayHouseholdItemsWithNumbers(householdArray);
                                 System.out.print("Which item to purchase (input number here): ");
                                 // Note: This number starts from 1.
@@ -305,7 +300,7 @@ public class WQSJoinesHoustonWalker {
                         } // switch (typeOfItem)
                     } // while (continueShopping)
                     // Here we perform check out.
-                    System.out.println("Items in cart:");
+                    System.out.println("Items in cart:\n");
                     // Note: Implement taxes later.
                     double foodSubtotal = 0;
                     double nonFoodSubtotal = 0;
@@ -320,7 +315,7 @@ public class WQSJoinesHoustonWalker {
                                           item.getName(), numInCart, cost);
                         foodSubtotal += cost * numInCart;
                     }
-                    System.out.println("Electronics Items:");
+                    System.out.println("\nElectronics Items:");
                     for (CartItem cartItem: electronicsCart) {
                         StoreItem item = cartItem.getItem();
                         int numInCart = cartItem.getNumInCart();
@@ -330,7 +325,7 @@ public class WQSJoinesHoustonWalker {
                                           item.getName(), numInCart, cost);
                         nonFoodSubtotal += cost * numInCart;
                     }
-                    System.out.println("Clothing Items:");
+                    System.out.println("\nClothing Items:");
                     for (CartItem cartItem: clothingCart) {
                         StoreItem item = cartItem.getItem();
                         int numInCart = cartItem.getNumInCart();
@@ -340,7 +335,7 @@ public class WQSJoinesHoustonWalker {
                                           item.getName(), numInCart, cost);
                         nonFoodSubtotal += cost * numInCart;
                     }
-                    System.out.println("Household Items:");
+                    System.out.println("\nHousehold Items:");
                     for (CartItem cartItem: householdCart) {
                         StoreItem item = cartItem.getItem();
                         int numInCart = cartItem.getNumInCart();
@@ -350,9 +345,14 @@ public class WQSJoinesHoustonWalker {
                                           item.getName(), numInCart, cost);
                         nonFoodSubtotal += cost * numInCart;
                     }
-                    System.out.printf("Subtotal: $%.2f\n",
+                    System.out.printf("\nSubtotal: $%.2f\n",
                                       foodSubtotal + nonFoodSubtotal);
-                    // FIXME: Calculate totals with tax here. Food is different from others.
+                    // Calculate totals with tax here. Food is different from others.
+                    double foodTotal = foodSubtotal + FOOD_TAX * foodSubtotal;
+                    double nonFoodTotal = nonFoodSubtotal + NONFOOD_TAX * nonFoodSubtotal;
+
+                    System.out.printf("Total: $%.2f\n",
+                                      foodTotal + nonFoodTotal);
                     // Confirm purchase
                     System.out.print("Continue with purchase [y/n]? ");
                     String confirm = sc.nextLine();
@@ -434,16 +434,24 @@ public class WQSJoinesHoustonWalker {
                         // Invalid input
                         System.out.println("Answer must be y or n.");
                     }
-                    // Print inventory here. Include the amount in stock?
+                    // Print inventory here.
+                    System.out.println("UPDATED INVENTORY:");
+                    displayFoodItems(foodArray);
+                    System.out.println();
+                    displayElectronicItems(electronicsArray);
+                    System.out.println();
+                    displayClothingItems(clothingArray);
+                    System.out.println();
+                    displayHouseholdItems(householdArray);
                     break;
-                //If adding to inventory:
-                //Asks what type of item (Food, Electronics, Clothing, or Household).
-                //Displays items currently available in inventory for the selected category.
-                //Provides the option to add more of an existing item or create a new item.
-                //Continue looping until the user confirms they are done adding items.
-                //Displays the updated inventory for the item(s) added.
                 case 2:
                     // Create item or add to inventory
+                    // If adding to inventory:
+                    // Asks what type of item (Food, Electronics, Clothing, or Household).
+                    // Displays items currently available in inventory for the selected category.
+                    // Provides the option to add more of an existing item or create a new item.
+                    // Continue looping until the user confirms they are done adding items.
+                    // Displays the updated inventory for the item(s) added.
                     boolean condition = true;
                     while (condition) {
                         System.out.print("Enter which type of item you wish for (Food (1), Electronics (2), Clothing (3), or Household (4)): ");
@@ -491,7 +499,6 @@ public class WQSJoinesHoustonWalker {
                             case 2:
                                 displayElectronicItems(electronicsArray);
 
-                                // FIX THIS CODE
                                 System.out.print("Would you like to add stock of an existing item (1), or add a new item (2)? ");
                                 int eiAction = sc.nextInt();
                                 // Sink newline
@@ -526,7 +533,6 @@ public class WQSJoinesHoustonWalker {
                                 // ClothingItem
                                 displayClothingItems(clothingArray);
 
-                                // FIX THIS CODE
                                 System.out.print("Would you like to add stock of an existing item (1), or add a new item (2)? ");
                                 int ciAction = sc.nextInt();
                                 // Sink newline
@@ -592,13 +598,13 @@ public class WQSJoinesHoustonWalker {
                         if (completed.equalsIgnoreCase("y")) {
                             condition = false;
                             System.out.println("UPDATED INVENTORY:");
-                            displayHouseholdItems(householdArray);
-                            System.out.println();
                             displayFoodItems(foodArray);
                             System.out.println();
                             displayElectronicItems(electronicsArray);
                             System.out.println();
                             displayClothingItems(clothingArray);
+                            System.out.println();
+                            displayHouseholdItems(householdArray);
                         }
                     } // End item-addition loop
                     break;
@@ -615,8 +621,8 @@ public class WQSJoinesHoustonWalker {
      * @param items The array list of food items to display.
      */
     public static void displayFoodItems(ArrayList<FoodItem> items) {
-        System.out.printf("%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s\n", "Name",
-                          "Brand", "Price", "Description", "Return Policy",
+        System.out.printf("%-21s%-16s%-6s%-9s%-31s%-16s%-16s%-11s%-14s\n", "Name",
+                          "Brand", "Stock", "Price", "Description", "Return Policy",
                           "Expiration Date", "Perishable", "Type");
         System.out.println("-".repeat(135));
         //
@@ -630,11 +636,11 @@ public class WQSJoinesHoustonWalker {
             } else if (item instanceof ShelfStable) {
                 type = "Shelf Stable";
             }
-            System.out.printf("%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11b%s\n",
-                              item.getName(), item.getBrand(), item.getPrice(),
-                              item.getDescription(), item.getReturnPolicy(),
-                              item.getExpirationDate(), item.isPerishable(),
-                              type);
+            System.out.printf("%-21s%-16s%-6d$%-8.2f%-31s%-16s%-16s%-11b%s\n",
+                              item.getName(), item.getBrand(), item.getStockCount(),
+                              item.getPrice(), item.getDescription(),
+                              item.getReturnPolicy(), item.getExpirationDate(),
+                              item.isPerishable(), type);
         }
     }
 
@@ -645,11 +651,11 @@ public class WQSJoinesHoustonWalker {
      * @param items The FoodItems to display
      */
     public static void displayFoodItemsWithNumbers(ArrayList<FoodItem> items) {
-        System.out.printf("%-7s%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s\n",
-                          "Number", "Name", "Brand", "Price", "Description",
-                          "Return Policy", "Expiration Date", "Perishable",
-                          "Type");
-        System.out.println("-".repeat(142));
+        System.out.printf("%-7s%-21s%-16s%-6s%-9s%-31s%-16s%-16s%-11s%-14s\n",
+                          "Number", "Name", "Brand", "Stock", "Price",
+                          "Description", "Return Policy", "Expiration Date",
+                          "Perishable", "Type");
+        System.out.println("-".repeat(148));
         //
         for (int i = 0; i < items.size(); i++) {
             FoodItem item = items.get(i);
@@ -662,22 +668,28 @@ public class WQSJoinesHoustonWalker {
             } else if (item instanceof ShelfStable) {
                 type = "Shelf Stable";
             }
-            System.out.printf("%-7d%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11b%s\n",
+            System.out.printf("%-7d%-21s%-16s%-6d$%-8.2f%-31s%-16s%-16s%-11b%s\n",
                               i + 1, item.getName(), item.getBrand(),
-                              item.getPrice(), item.getDescription(),
-                              item.getReturnPolicy(), item.getExpirationDate(),
-                              item.isPerishable(), type);
+                              item.getStockCount(), item.getPrice(),
+                              item.getDescription(), item.getReturnPolicy(),
+                              item.getExpirationDate(), item.isPerishable(),
+                              type);
         }
     }
 
+    /**
+     * Print a table of ElectronicsItems.
+     *
+     * @param items The ElectronicsItems to display.
+     */
     public static void displayElectronicItems(ArrayList<ElectronicsItem> items) {
         if (items == null || items.isEmpty()) {
             System.out.println("No electronic items available.");
             return;
         }
-        System.out.printf("%-21s%-16s%-9s%-31s%-16s%-16s%-11s%n",
-                "Name", "Brand", "Price", "Description", "Return Policy", "Screen Width", "Screen Height");
-        System.out.println("-".repeat(135)); // Requires Java 11+
+        System.out.printf("%-21s%-16s%-6s%-9s%-31s%-16s%-16s%-11s%n",
+                "Name", "Brand", "Stock", "Price", "Description", "Return Policy", "Screen Width", "Screen Height");
+        System.out.println("-".repeat(141)); // Requires Java 11+
         for (ElectronicsItem item : items) {
             String type = "Electronics";
             if (item instanceof Laptop) {
@@ -687,22 +699,28 @@ public class WQSJoinesHoustonWalker {
             } else if (item instanceof TV) {
                 type = "TV";
             }
-            System.out.printf("%-21s%-16s$%-8.2f%-31s%-16s%-16.1f%-11.1f%-11s%n",
-                    item.getName(), item.getBrand(), item.getPrice(),
+            System.out.printf("%-21s%-16s%-6d$%-8.2f%-31s%-16s%-16.1f%-11.1f%-11s%n",
+                    item.getName(), item.getBrand(), item.getStockCount(), item.getPrice(),
                     item.getDescription(), item.getReturnPolicy(),
                     item.getScreenWidth(), item.getScreenHeight(),
                     type);
         }
     }
 
+    /**
+     * Prints a table of ElectronicsItems with numbers to allow selection.
+     * Note: It displays numbers starting from 1.
+     *
+     * @param items The ElectronicsItems to display
+     */
     public static void displayElectronicsItemsWithNumbers(ArrayList<ElectronicsItem> items) {
         if (items == null || items.isEmpty()) {
             System.out.println("No electronic items available.");
             return;
         }
-        System.out.printf("%-7s%-21s%-16s%-9s%-31s%-16s%-16s%-11s%n",
-                "Number", "Name", "Brand", "Price", "Description", "Return Policy", "Screen Width", "Screen Height");
-        System.out.println("-".repeat(142)); // Requires Java 11+
+        System.out.printf("%-7s%-21s%-16s%-6s%-9s%-31s%-16s%-16s%-11s%n",
+                "Number", "Name", "Brand", "Stock", "Price", "Description", "Return Policy", "Screen Width", "Screen Height");
+        System.out.println("-".repeat(148)); // Requires Java 11+
         for (int i = 0; i < items.size(); i++) {
             ElectronicsItem item = items.get(i);
             String type = "Electronics";
@@ -713,8 +731,8 @@ public class WQSJoinesHoustonWalker {
             } else if (item instanceof TV) {
                 type = "TV";
             }
-            System.out.printf("%-7d%-21s%-16s$%-8.2f%-31s%-16s%-16.1f%-11.1f%-11s%n",
-                    i + 1, item.getName(), item.getBrand(), item.getPrice(),
+            System.out.printf("%-7d%-21s%-16s%-6d$%-8.2f%-31s%-16s%-16.1f%-11.1f%-11s%n",
+                    i + 1, item.getName(), item.getBrand(), item.getStockCount(), item.getPrice(),
                     item.getDescription(), item.getReturnPolicy(),
                     item.getScreenWidth(), item.getScreenHeight(),
                     type);
@@ -722,16 +740,18 @@ public class WQSJoinesHoustonWalker {
     }
 
     /**
-     * Fill later
+     * Print a table of ClothingItems.
+     *
+     * @param items The ClothingItems to display.
      */
     public static void displayClothingItems(ArrayList<ClothingItem> items) {
         if (items == null || items.isEmpty()) {
             System.out.println("No clothing items available.");
             return;
         }
-        System.out.printf("%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s%-16s%n",
-                "Name", "Brand", "Price", "Description", "Return Policy", "Size", "Gender", "Color", "Material");
-        System.out.println("-".repeat(135)); // Requires Java 11+
+        System.out.printf("%-21s%-16s%-6s%-9s%-31s%-16s%-16s%-11s%-14s%-16s%n",
+                "Name", "Brand", "Stock", "Price", "Description", "Return Policy", "Size", "Gender", "Color", "Material");
+        System.out.println("-".repeat(141)); // Requires Java 11+
         for (ClothingItem item : items) {
             String type = "Clothing";
             if (item instanceof Shirt) {
@@ -741,22 +761,28 @@ public class WQSJoinesHoustonWalker {
             } else if (item instanceof Shoe) {
                 type = "Shoe";
             }
-            System.out.printf("%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11s%-14s%-16s%-11s%n",
-                    item.getName(), item.getBrand(), item.getPrice(),
+            System.out.printf("%-21s%-16s%-6d$%-8.2f%-31s%-16s%-16s%-11s%-14s%-16s%-11s%n",
+                    item.getName(), item.getBrand(), item.getStockCount(), item.getPrice(),
                     item.getDescription(), item.getReturnPolicy(),
                     item.getSize(), item.getGender(), item.getColor(), item.getMaterial(),
                     type);
         }
     }
 
+    /**
+     * Prints a table of ClothingItems with numbers to allow selection.
+     * Note: It displays numbers starting from 1.
+     *
+     * @param items The ClothingItems to display
+     */
     public static void displayClothingItemsWithNumbers(ArrayList<ClothingItem> items) {
         if (items == null || items.isEmpty()) {
             System.out.println("No clothing items available.");
             return;
         }
-        System.out.printf("%-7s%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s%-16s%n",
-                "Number", "Name", "Brand", "Price", "Description", "Return Policy", "Size", "Gender", "Color", "Material");
-        System.out.println("-".repeat(142)); // Requires Java 11+
+        System.out.printf("%-7s%-21s%-16s%-6s%-9s%-31s%-16s%-16s%-11s%-14s%-16s%n",
+                "Number", "Name", "Brand", "Stock", "Price", "Description", "Return Policy", "Size", "Gender", "Color", "Material");
+        System.out.println("-".repeat(148)); // Requires Java 11+
         for (int i = 0; i < items.size(); i++) {
             ClothingItem item = items.get(i);
             String type = "Clothing";
@@ -767,8 +793,8 @@ public class WQSJoinesHoustonWalker {
             } else if (item instanceof Shoe) {
                 type = "Shoe";
             }
-            System.out.printf("%-7d%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11s%-14s%-16s%-11s%n",
-                    i + 1, item.getName(), item.getBrand(), item.getPrice(),
+            System.out.printf("%-7d%-21s%-16s%-6d$%-8.2f%-31s%-16s%-16s%-11s%-14s%-16s%-11s%n",
+                    i + 1, item.getName(), item.getBrand(), item.getStockCount(), item.getPrice(),
                     item.getDescription(), item.getReturnPolicy(),
                     item.getSize(), item.getGender(), item.getColor(), item.getMaterial(),
                     type);
@@ -781,9 +807,9 @@ public class WQSJoinesHoustonWalker {
      * @param items The HouseholdItems array list to display.
      */
     public static void displayHouseholdItems(ArrayList<HouseholdItem> items) {
-        System.out.printf("%-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
-                "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
-        System.out.println("-".repeat(120));
+        System.out.printf("%-20s %-15s %-5s %-10s %-30s %-15s %-15s %-20s\n",
+                "Name", "Brand", "Stock", "Price", "Description", "Return Policy", "Type", "Additional Info");
+        System.out.println("-".repeat(126));
 
         for (HouseholdItem item : items) {
             String type = "General";
@@ -799,21 +825,21 @@ public class WQSJoinesHoustonWalker {
                 additionalInfo = "Material: " + f.getMaterial();
             }
 
-            System.out.printf("%-20s %-15s $%-9.2f %-30s %-15s %-15s %-20s\n",
-                    item.getName(), item.getBrand(), item.getPrice(), item.getDescription(),
+            System.out.printf("%-20s %-15s %-5d $%-9.2f %-30s %-15s %-15s %-20s\n",
+                    item.getName(), item.getBrand(), item.getStockCount(), item.getPrice(), item.getDescription(),
                     item.getReturnPolicy(), type, additionalInfo);
         }
     }
 
     /**
-     * Print information on HouseholdItems in a table.
+     * Print information on HouseholdItems in a table, with numbers (indexed starting from 1).
      *
      * @param items The HouseholdItems array list to display.
      */
     public static void displayHouseholdItemsWithNumbers(ArrayList<HouseholdItem> items) {
-        System.out.printf("%-6s %-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
-                "Number", "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
-        System.out.println("-".repeat(127));
+        System.out.printf("%-6s %-20s %-15s %-5s %-10s %-30s %-15s %-15s %-20s\n",
+                "Number", "Name", "Brand", "Stock", "Price", "Description", "Return Policy", "Type", "Additional Info");
+        System.out.println("-".repeat(133));
 
         for (int i = 0; i < items.size(); i++) {
             HouseholdItem item = items.get(i);
@@ -830,8 +856,8 @@ public class WQSJoinesHoustonWalker {
                 additionalInfo = "Material: " + f.getMaterial();
             }
 
-            System.out.printf("%-6d %-20s %-15s $%-9.2f %-30s %-15s %-15s %-20s\n",
-                    i + 1, item.getName(), item.getBrand(), item.getPrice(), item.getDescription(),
+            System.out.printf("%-6d %-20s %-15s %-5d $%-9.2f %-30s %-15s %-15s %-20s\n",
+                    i + 1, item.getName(), item.getBrand(), item.getStockCount(), item.getPrice(), item.getDescription(),
                     item.getReturnPolicy(), type, additionalInfo);
         }
     }
@@ -878,6 +904,12 @@ public class WQSJoinesHoustonWalker {
         }
     }
 
+    /**
+     * Add a new electronics item to inventory.
+     *
+     * @param sc The Scanner to read input from
+     * @param electronicsArray The array to add the new food item to
+     */
     public static void createNewElectronicsItem(Scanner sc, ArrayList<ElectronicsItem> electronicsArray) {
         System.out.print("What type of electronics item do you want to add, Laptop (1), Phone (2), or TV (3)? ");
         int typeChoice = sc.nextInt();
@@ -917,6 +949,7 @@ public class WQSJoinesHoustonWalker {
     }
 
     /**
+     * Add a new clothing item to inventory.
      *
      * @param sc The Scanner to read input from
      * @param clothingArray The array to add new clothing item to
@@ -1017,5 +1050,4 @@ public class WQSJoinesHoustonWalker {
 
         System.out.println("Item successfully added to inventory!");
     }
-
 }
