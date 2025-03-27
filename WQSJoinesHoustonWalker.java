@@ -327,6 +327,7 @@ public class WQSJoinesHoustonWalker {
 
                             case 3:
                                 // ClothingItem
+                                // FIXME
                                 break;
                             case 4:
                                 // HouseholdItem
