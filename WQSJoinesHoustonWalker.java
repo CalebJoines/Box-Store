@@ -843,6 +843,7 @@ public class WQSJoinesHoustonWalker {
             String owType = sc.nextLine();
             System.out.print("Enter if waterproof: ");
             boolean isWaterproof = sc.nextBoolean();
+            sc.nextLine(); // Consume newline
             clothingArray.add(new Outerwear(name, description, brand, price, returnPolicy, size, gender, color, material, owType, isWaterproof));
         }
         else if (typeChoice == 2) {
