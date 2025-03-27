@@ -220,7 +220,7 @@ public class WQSJoinesHoustonWalker {
                                 /* This is a preliminary implementation of purchasing.
                                  * Note: This needs to be refactored to support the cart, and looping.
                                  */
-                                displayFoodItemsWithNumbers(foodArray);
+                                displayClothingItemsWithNumbers(clothingArray);
                                 System.out.print("Which item to purchase (input number here): ");
                                 // Note: This number starts from 1.
                                 int ciIndex = sc.nextInt();
@@ -262,7 +262,7 @@ public class WQSJoinesHoustonWalker {
                                 /* This is a preliminary implementation of purchasing.
                                  * Note: This needs to be refactored to support the cart, and looping.
                                  */
-                                displayFoodItemsWithNumbers(foodArray);
+                                displayHouseholdItemsWithNumbers(householdArray);
                                 System.out.print("Which item to purchase (input number here): ");
                                 // Note: This number starts from 1.
                                 int hiIndex = sc.nextInt();
@@ -330,10 +330,29 @@ public class WQSJoinesHoustonWalker {
                                           item.getName(), numInCart, cost);
                         nonFoodSubtotal += cost * numInCart;
                     }
-                    // Insert code for other categories here.
+                    System.out.println("Clothing Items:");
+                    for (CartItem cartItem: clothingCart) {
+                        StoreItem item = cartItem.getItem();
+                        int numInCart = cartItem.getNumInCart();
+                        double cost = item.getPrice();
+
+                        System.out.printf("%s (%d, $%.2f each)\n",
+                                          item.getName(), numInCart, cost);
+                        nonFoodSubtotal += cost * numInCart;
+                    }
+                    System.out.println("Household Items:");
+                    for (CartItem cartItem: householdCart) {
+                        StoreItem item = cartItem.getItem();
+                        int numInCart = cartItem.getNumInCart();
+                        double cost = item.getPrice();
+
+                        System.out.printf("%s (%d, $%.2f each)\n",
+                                          item.getName(), numInCart, cost);
+                        nonFoodSubtotal += cost * numInCart;
+                    }
                     System.out.printf("Subtotal: $%.2f\n",
                                       foodSubtotal + nonFoodSubtotal);
-                    // Calculate totals with tax here. Food is different from others.
+                    // FIXME: Calculate totals with tax here. Food is different from others.
                     // Confirm purchase
                     System.out.print("Continue with purchase [y/n]? ");
                     String confirm = sc.nextLine();
@@ -360,7 +379,41 @@ public class WQSJoinesHoustonWalker {
                             }
                         }
                         for (CartItem ci: electronicsCart) {
-                            // FoodItem
+                            // ElectronicsItem
+                            // Use similar code for the other carts.
+                            StoreItem item = ci.getItem();
+                            int numInCart = ci.getNumInCart();
+                            boolean success = item.subtractStockCount(numInCart);
+                            if (success) {
+                                // Enough stock (placed for debugging).
+                                System.out.printf("Item %s now has %d stock. Return policy: %s\n",
+                                                  item.getName(), item.getStockCount(),
+                                                  item.getReturnPolicy());
+                            } else {
+                                // Not enough stock
+                                System.out.printf("There is not enough stock to purchase %s.\n",
+                                                  item.getName());
+                            }
+                        }
+                        for (CartItem ci: clothingCart) {
+                            // ClothingItem
+                            // Use similar code for the other carts.
+                            StoreItem item = ci.getItem();
+                            int numInCart = ci.getNumInCart();
+                            boolean success = item.subtractStockCount(numInCart);
+                            if (success) {
+                                // Enough stock (placed for debugging).
+                                System.out.printf("Item %s now has %d stock. Return policy: %s\n",
+                                                  item.getName(), item.getStockCount(),
+                                                  item.getReturnPolicy());
+                            } else {
+                                // Not enough stock
+                                System.out.printf("There is not enough stock to purchase %s.\n",
+                                                  item.getName());
+                            }
+                        }
+                        for (CartItem ci: householdCart) {
+                            // HouseholdItem
                             // Use similar code for the other carts.
                             StoreItem item = ci.getItem();
                             int numInCart = ci.getNumInCart();
@@ -471,7 +524,6 @@ public class WQSJoinesHoustonWalker {
 
                             case 3:
                                 // ClothingItem
-                                // FIXME
                                 displayClothingItems(clothingArray);
 
                                 // FIX THIS CODE
@@ -555,36 +607,6 @@ public class WQSJoinesHoustonWalker {
                     break;
             } // switch (input)
         } // while (!exitMainLoop)
-    }
-
-    /**
-     * Print information on HouseholdItems in a table.
-     *
-     * @param items The HouseholdItems array list to display.
-     */
-    public static void displayHouseholdItems(ArrayList<HouseholdItem> items) {
-        System.out.printf("%-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
-                "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
-        System.out.println("-".repeat(120));
-
-        for (HouseholdItem item : items) {
-            String type = "General";
-            String additionalInfo = "";
-
-            if (item instanceof CleaningSupply) {
-                CleaningSupply cs = (CleaningSupply) item;
-                type = "Application";
-                additionalInfo = "Use: " + cs.getUseMethod() + ", Apply: " + cs.getApplicationMethod();
-            } else if (item instanceof Furniture) {
-                Furniture f = (Furniture) item;
-                type = "Furniture";
-                additionalInfo = "Material: " + f.getMaterial();
-            }
-
-            System.out.printf("%-20s %-15s $%-9.2f %-30s %-15s %-15s %-20s\n",
-                    item.getName(), item.getBrand(), item.getPrice(), item.getDescription(),
-                    item.getReturnPolicy(), type, additionalInfo);
-        }
     }
 
     /**
@@ -724,6 +746,93 @@ public class WQSJoinesHoustonWalker {
                     item.getDescription(), item.getReturnPolicy(),
                     item.getSize(), item.getGender(), item.getColor(), item.getMaterial(),
                     type);
+        }
+    }
+
+    public static void displayClothingItemsWithNumbers(ArrayList<ClothingItem> items) {
+        if (items == null || items.isEmpty()) {
+            System.out.println("No clothing items available.");
+            return;
+        }
+        System.out.printf("%-7s%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s%-16s%n",
+                "Number", "Name", "Brand", "Price", "Description", "Return Policy", "Size", "Gender", "Color", "Material");
+        System.out.println("-".repeat(142)); // Requires Java 11+
+        for (int i = 0; i < items.size(); i++) {
+            ClothingItem item = items.get(i);
+            String type = "Clothing";
+            if (item instanceof Shirt) {
+                type = "Shirt";
+            } else if (item instanceof Outerwear) {
+                type = "Outerwear";
+            } else if (item instanceof Shoe) {
+                type = "Shoe";
+            }
+            System.out.printf("%-7d%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11s%-14s%-16s%-11s%n",
+                    i + 1, item.getName(), item.getBrand(), item.getPrice(),
+                    item.getDescription(), item.getReturnPolicy(),
+                    item.getSize(), item.getGender(), item.getColor(), item.getMaterial(),
+                    type);
+        }
+    }
+
+    /**
+     * Print information on HouseholdItems in a table.
+     *
+     * @param items The HouseholdItems array list to display.
+     */
+    public static void displayHouseholdItems(ArrayList<HouseholdItem> items) {
+        System.out.printf("%-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
+                "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
+        System.out.println("-".repeat(120));
+
+        for (HouseholdItem item : items) {
+            String type = "General";
+            String additionalInfo = "";
+
+            if (item instanceof CleaningSupply) {
+                CleaningSupply cs = (CleaningSupply) item;
+                type = "Application";
+                additionalInfo = "Use: " + cs.getUseMethod() + ", Apply: " + cs.getApplicationMethod();
+            } else if (item instanceof Furniture) {
+                Furniture f = (Furniture) item;
+                type = "Furniture";
+                additionalInfo = "Material: " + f.getMaterial();
+            }
+
+            System.out.printf("%-20s %-15s $%-9.2f %-30s %-15s %-15s %-20s\n",
+                    item.getName(), item.getBrand(), item.getPrice(), item.getDescription(),
+                    item.getReturnPolicy(), type, additionalInfo);
+        }
+    }
+
+    /**
+     * Print information on HouseholdItems in a table.
+     *
+     * @param items The HouseholdItems array list to display.
+     */
+    public static void displayHouseholdItemsWithNumbers(ArrayList<HouseholdItem> items) {
+        System.out.printf("%-6s %-20s %-15s %-10s %-30s %-15s %-15s %-20s\n",
+                "Number", "Name", "Brand", "Price", "Description", "Return Policy", "Type", "Additional Info");
+        System.out.println("-".repeat(127));
+
+        for (int i = 0; i < items.size(); i++) {
+            HouseholdItem item = items.get(i);
+            String type = "General";
+            String additionalInfo = "";
+
+            if (item instanceof CleaningSupply) {
+                CleaningSupply cs = (CleaningSupply) item;
+                type = "Application";
+                additionalInfo = "Use: " + cs.getUseMethod() + ", Apply: " + cs.getApplicationMethod();
+            } else if (item instanceof Furniture) {
+                Furniture f = (Furniture) item;
+                type = "Furniture";
+                additionalInfo = "Material: " + f.getMaterial();
+            }
+
+            System.out.printf("%-6d %-20s %-15s $%-9.2f %-30s %-15s %-15s %-20s\n",
+                    i + 1, item.getName(), item.getBrand(), item.getPrice(), item.getDescription(),
+                    item.getReturnPolicy(), type, additionalInfo);
         }
     }
 
