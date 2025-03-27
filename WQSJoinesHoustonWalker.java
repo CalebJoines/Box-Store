@@ -178,7 +178,7 @@ public class WQSJoinesHoustonWalker {
                                 /* This is a preliminary implementation of purchasing.
                                  * Note: This needs to be refactored to support the cart, and looping.
                                  */
-                                displayFoodItemsWithNumbers(foodArray);
+                                displayElectronicsItemsWithNumbers(electronicsArray);
                                 System.out.print("Which item to purchase (input number here): ");
                                 // Note: This number starts from 1.
                                 int eiIndex = sc.nextInt();
@@ -320,6 +320,16 @@ public class WQSJoinesHoustonWalker {
                                           item.getName(), numInCart, cost);
                         foodSubtotal += cost * numInCart;
                     }
+                    System.out.println("Electronics Items:");
+                    for (CartItem cartItem: electronicsCart) {
+                        StoreItem item = cartItem.getItem();
+                        int numInCart = cartItem.getNumInCart();
+                        double cost = item.getPrice();
+
+                        System.out.printf("%s (%d, $%.2f each)\n",
+                                          item.getName(), numInCart, cost);
+                        nonFoodSubtotal += cost * numInCart;
+                    }
                     // Insert code for other categories here.
                     System.out.printf("Subtotal: $%.2f\n",
                                       foodSubtotal + nonFoodSubtotal);
@@ -333,6 +343,23 @@ public class WQSJoinesHoustonWalker {
                     } else if (confirm.equalsIgnoreCase("y")) {
                         // Continue with purchase
                         for (CartItem ci: foodCart) {
+                            // FoodItem
+                            // Use similar code for the other carts.
+                            StoreItem item = ci.getItem();
+                            int numInCart = ci.getNumInCart();
+                            boolean success = item.subtractStockCount(numInCart);
+                            if (success) {
+                                // Enough stock (placed for debugging).
+                                System.out.printf("Item %s now has %d stock. Return policy: %s\n",
+                                                  item.getName(), item.getStockCount(),
+                                                  item.getReturnPolicy());
+                            } else {
+                                // Not enough stock
+                                System.out.printf("There is not enough stock to purchase %s.\n",
+                                                  item.getName());
+                            }
+                        }
+                        for (CartItem ci: electronicsCart) {
                             // FoodItem
                             // Use similar code for the other carts.
                             StoreItem item = ci.getItem();
@@ -578,6 +605,32 @@ public class WQSJoinesHoustonWalker {
             }
             System.out.printf("%-21s%-16s$%-8.2f%-31s%-16s%-16.1f%-11.1f%-11s%n",
                     item.getName(), item.getBrand(), item.getPrice(),
+                    item.getDescription(), item.getReturnPolicy(),
+                    item.getScreenWidth(), item.getScreenHeight(),
+                    type);
+        }
+    }
+
+    public static void displayElectronicsItemsWithNumbers(ArrayList<ElectronicsItem> items) {
+        if (items == null || items.isEmpty()) {
+            System.out.println("No electronic items available.");
+            return;
+        }
+        System.out.printf("%-7s%-21s%-16s%-9s%-31s%-16s%-16s%-11s%n",
+                "Number", "Name", "Brand", "Price", "Description", "Return Policy", "Screen Width", "Screen Height");
+        System.out.println("-".repeat(142)); // Requires Java 11+
+        for (int i = 0; i < items.size(); i++) {
+            ElectronicsItem item = items.get(i);
+            String type = "Electronics";
+            if (item instanceof Laptop) {
+                type = "Laptop";
+            } else if (item instanceof Phone) {
+                type = "Phone";
+            } else if (item instanceof TV) {
+                type = "TV";
+            }
+            System.out.printf("%-7d%-21s%-16s$%-8.2f%-31s%-16s%-16.1f%-11.1f%-11s%n",
+                    i + 1, item.getName(), item.getBrand(), item.getPrice(),
                     item.getDescription(), item.getReturnPolicy(),
                     item.getScreenWidth(), item.getScreenHeight(),
                     type);
