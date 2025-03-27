@@ -5,7 +5,7 @@
 public class Outerwear extends ClothingItem {
 
     private String type;
-    private Boolean isWaterproof;
+    private boolean isWaterproof;
 
     /**
      * Creates an Outerwear object (full-feature)
@@ -21,7 +21,7 @@ public class Outerwear extends ClothingItem {
      * @param type the type of outerwear the item is
      * @param isWaterproof if the item is waterproof or not
      */
-    public Outerwear(String name, String description, String brand, double price, String returnPolicy, String size, String gender, String color, String material, String type, Boolean isWaterproof) {
+    public Outerwear(String name, String description, String brand, double price, String returnPolicy, String size, String gender, String color, String material, String type, boolean isWaterproof) {
         super(name, description, brand, price, returnPolicy, size, gender, color, material);
         this.type = type;
         this.isWaterproof = isWaterproof;
@@ -38,7 +38,7 @@ public class Outerwear extends ClothingItem {
      * @param type the type of outerwear the item is
      * @param isWaterproof if the item is waterproof or not
      */
-    public Outerwear(String name, double price, String size, String gender, String color, String material, String type, Boolean isWaterproof) {
+    public Outerwear(String name, double price, String size, String gender, String color, String material, String type, boolean isWaterproof) {
         super(name, price, size, gender, color, material);
         this.type = type;
         this.isWaterproof = isWaterproof;
@@ -51,9 +51,9 @@ public class Outerwear extends ClothingItem {
     public String getType() {return type;}
     /**
      * Gets whether the item is waterproof or not
-     * @return Boolean isWaterproof
+     * @return boolean isWaterproof
      */
-    public Boolean isWaterproof() {return isWaterproof;}
+    public boolean isWaterproof() {return isWaterproof;}
 
     // Setters
     /**
@@ -65,5 +65,5 @@ public class Outerwear extends ClothingItem {
      * Sets whether the outerwear is waterproof or not
      * @param isWaterproof If the item is waterproof
      */
-    public void setWaterproof(Boolean isWaterproof) {this.isWaterproof = isWaterproof;}
+    public void setWaterproof(boolean isWaterproof) {this.isWaterproof = isWaterproof;}
 }
