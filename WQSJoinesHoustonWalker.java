@@ -808,9 +808,63 @@ public class WQSJoinesHoustonWalker {
     }
 
     /**
-     * FIXME
+     *
+     * @param sc The Scanner to read input from
+     * @param clothingArray The array to add new clothing item to
      */
-    public static void createNewClothingItem(Scanner sc, ArrayList<ClothingItem> clothingArray) {}
+    public static void createNewClothingItem(Scanner sc, ArrayList<ClothingItem> clothingArray) {
+        System.out.print("What type of clothing item would you like to add? (Outerwear (1), Shirt (2), or Shoe (3)): ");
+        int typeChoice = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Enter item name: ");
+        String name = sc.nextLine();
+        System.out.print("Enter item brand: ");
+        String brand = sc.nextLine();
+        System.out.print("Enter item price: ");
+        double price = sc.nextDouble();
+        sc.nextLine(); // Consume newline
+        System.out.print("Enter item description: ");
+        String description = sc.nextLine();
+        System.out.print("Enter return policy: ");
+        String returnPolicy = sc.nextLine();
+        System.out.print("Enter clothing size: ");
+        String size = sc.nextLine();
+        System.out.print("Enter clothing gender (N/A if not applicable): ");
+        String gender = sc.nextLine();
+        System.out.print("Enter clothing color: ");
+        String color = sc.nextLine();
+        System.out.print("Enter clothing material: ");
+        String material = sc.nextLine();
+
+        if (typeChoice == 1) {
+            // Outerwear
+            System.out.print("Enter outerwear type: ");
+            String owType = sc.nextLine();
+            System.out.print("Enter if waterproof: ");
+            boolean isWaterproof = sc.nextBoolean();
+            clothingArray.add(new Outerwear(name, description, brand, price, returnPolicy, size, gender, color, material, owType, isWaterproof));
+        }
+        else if (typeChoice == 2) {
+            // Shirt
+            System.out.print("Enter shirt type: ");
+            String shtType = sc.nextLine();
+            clothingArray.add(new Shirt(name, description, brand, price, returnPolicy, size, gender, color, material, shtType));
+        }
+        else if (typeChoice == 3) {
+            // Shoe
+            System.out.print("Enter shoe securement type: ");
+            String securementType = sc.nextLine();
+            System.out.print("Enter shoe type: ");
+            String shoeType = sc.nextLine();
+            clothingArray.add(new Shoe(name, description, brand, price, returnPolicy, size, gender, color, material, securementType, shoeType));
+        }
+        else {
+            // Invalid input
+            System.out.println("Invalid answer! Selection must be 1, 2, or 3!");
+        }
+        System.out.println("Item successfully added to inventory!");
+    }
 
     /**
      * Add a new HouseholdItem to inventory.
