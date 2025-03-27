@@ -60,13 +60,11 @@ public class WQSJoinesHoustonWalker {
         foodArray.add(new Fruit("Apple", "Gala Apple", "Generic", 1.00, "14 days", "4/1/25", true));
         foodArray.add(new Vegetable("Cucumber", "Cucumber", "Generic", 1.00, "14 days", "4/1/25", true));
 
-        // Adding CleaningSupply objects (AI generated)
+        // Adding Household Items
         householdArray.add(new CleaningSupply("Glass Cleaner", "Cleans windows", "Windex", 5.99, "30 days", "Spray", "Wipe with cloth"));
         householdArray.add(new CleaningSupply("Dish Soap", "Cuts grease", "Dawn", 3.49, "No returns", "Pour", "Scrub with sponge"));
         householdArray.add(new CleaningSupply("Floor Cleaner", "Removes stains", "Pine-Sol", 6.99, "14 days", "Mop", "Dilute in water"));
         householdArray.add(new CleaningSupply("Bathroom Spray", "Kills germs", "Lysol", 7.99, "30 days", "Spray", "Wipe with towel"));
-
-        // Adding Furniture objects (AI Generated)
         householdArray.add(new Furniture("Office Chair", "Ergonomic chair", "IKEA", 99.99, "60 days", "Leather"));
         householdArray.add(new Furniture("Dining Table", "Wooden dining table", "Ashley", 199.99, "90 days", "Oak Wood"));
         householdArray.add(new Furniture("Sofa", "Comfortable 3-seater", "La-Z-Boy", 499.99, "120 days", "Fabric"));
@@ -294,8 +292,39 @@ public class WQSJoinesHoustonWalker {
 
                                 break;
                             case 2:
-                                // ElectronicsItem
+                                displayElectronicItems(electronicsArray);
+
+                                // FIX THIS CODE
+                                System.out.print("Would you like to add stock of an existing item (1), or add a new item (2)? ");
+                                int eiAction = sc.nextInt();
+                                // Sink newline
+                                sc.nextLine();
+                                if (eiAction == 1) {
+                                    System.out.print("Enter item name: ");
+                                    String name = sc.nextLine();
+                                    System.out.print("Enter item brand: ");
+                                    String brand = sc.nextLine();
+
+                                    for (ElectronicsItem item : electronicsArray) {
+                                        if (item.getName().equalsIgnoreCase(name) && item.getBrand().equalsIgnoreCase(brand)) {
+                                            System.out.print("Enter amount of stock to add: ");
+                                            int newStockCount = sc.nextInt();
+                                            sc.nextLine();
+                                            item.addStockCount(newStockCount);
+                                            System.out.printf("%s now has %d stock. ", name, item.getStockCount());
+                                            break;
+                                        }
+                                    }
+                                } else if (eiAction == 2) {
+                                    // Add new item
+                                    createNewElectronicsItem(sc, electronicsArray);
+                                } else {
+                                    // Invalid action
+                                    System.out.println("Invalid selection (must be 1 or 2)!");
+                                }
+
                                 break;
+
                             case 3:
                                 // ClothingItem
                                 break;
@@ -339,6 +368,10 @@ public class WQSJoinesHoustonWalker {
                             displayHouseholdItems(householdArray);
                             System.out.println();
                             displayFoodItems(foodArray);
+                            System.out.println();
+                            displayElectronicItems(electronicsArray);
+                            System.out.println();
+                            displayClothingItems(clothingArray);
                         }
                     } // End item-addition loop
                     break;
@@ -407,6 +440,36 @@ public class WQSJoinesHoustonWalker {
                               type);
         }
     }
+
+    public static void displayElectronicItems(ArrayList<ElectronicsItem> items) {
+        if (items == null || items.isEmpty()) {
+            System.out.println("No electronic items available.");
+            return;
+        }
+        System.out.printf("%-21s%-16s%-9s%-31s%-16s%-16s%-11s%n",
+                "Name", "Brand", "Price", "Description", "Return Policy", "Screen Width", "Screen Height");
+        System.out.println("-".repeat(135)); // Requires Java 11+
+        for (ElectronicsItem item : items) {
+            String type = "Electronics";
+            if (item instanceof Laptop) {
+                type = "Laptop";
+            } else if (item instanceof Phone) {
+                type = "Phone";
+            } else if (item instanceof TV) {
+                type = "TV";
+            }
+            System.out.printf("%-21s%-16s$%-8.2f%-31s%-16s%-16.1f%-11.1f%-11s%n",
+                    item.getName(), item.getBrand(), item.getPrice(),
+                    item.getDescription(), item.getReturnPolicy(),
+                    item.getScreenWidth(), item.getScreenHeight(),
+                    type);
+        }
+    }
+
+    /**
+     * Fill later
+     */
+    public static void displayClothingItems(ArrayList<ClothingItem> items) {}
 
     /**
      * Prints a table of FoodItems with numbers to allow selection.
@@ -479,6 +542,44 @@ public class WQSJoinesHoustonWalker {
             System.out.println("Invalid choice. Item not added.");
         }
 
+        System.out.println("Item successfully added to inventory!");
+    }
+
+    public static void createNewElectronicsItem(Scanner sc, ArrayList<ElectronicsItem> electronicsArray) {
+        System.out.print("What type of electronics item do you want to add, Laptop (1), Phone (2), or TV (3)? ");
+        int typeChoice = sc.nextInt();
+        sc.nextLine(); // Consume newline
+
+        System.out.print("Enter item name: ");
+        String name = sc.nextLine();
+        System.out.print("Enter item brand: ");
+        String brand = sc.nextLine();
+        System.out.print("Enter item price: ");
+        double price = sc.nextDouble();
+        sc.nextLine(); // Consume newline
+        System.out.print("Enter item description: ");
+        String description = sc.nextLine();
+        System.out.print("Enter return policy: ");
+        String returnPolicy = sc.nextLine();
+        System.out.print("Enter screen size (inches): ");
+        double screenSize = sc.nextDouble();
+        System.out.print("Enter screen width (inches): ");
+        double screenWidth = sc.nextDouble();
+        sc.nextLine(); // Consume newline
+
+        if (typeChoice == 1) {
+            // Laptop
+            electronicsArray.add(new Laptop(name, description, brand, price, returnPolicy, screenSize, screenWidth));
+        } else if (typeChoice == 2) {
+            // Phone
+            electronicsArray.add(new Phone(name, description, brand, price, returnPolicy, screenSize, screenWidth));
+        } else if (typeChoice == 3) {
+            // TV
+            electronicsArray.add(new TV(name, description, brand, price, returnPolicy, screenSize, screenWidth));
+        } else {
+            // Invalid answer
+            System.out.println("Invalid answer! Selection must be 1, 2, or 3!");
+        }
         System.out.println("Item successfully added to inventory!");
     }
 
