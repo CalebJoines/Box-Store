@@ -672,7 +672,30 @@ public class WQSJoinesHoustonWalker {
     /**
      * Fill later
      */
-    public static void displayClothingItems(ArrayList<ClothingItem> items) {}
+    public static void displayClothingItems(ArrayList<ClothingItem> items) {
+        if (items == null || items.isEmpty()) {
+            System.out.println("No clothing items available.");
+            return;
+        }
+        System.out.printf("%-21s%-16s%-9s%-31s%-16s%-16s%-11s%-14s%-16s%n",
+                "Name", "Brand", "Price", "Description", "Return Policy", "Size", "Gender", "Color", "Material");
+        System.out.println("-".repeat(135)); // Requires Java 11+
+        for (ClothingItem item : items) {
+            String type = "Clothing";
+            if (item instanceof Shirt) {
+                type = "Shirt";
+            } else if (item instanceof Outerwear) {
+                type = "Outerwear";
+            } else if (item instanceof Shoe) {
+                type = "Shoe";
+            }
+            System.out.printf("%-21s%-16s$%-8.2f%-31s%-16s%-16s%-11s%-14s%-16s%-11s%n",
+                    item.getName(), item.getBrand(), item.getPrice(),
+                    item.getDescription(), item.getReturnPolicy(),
+                    item.getSize(), item.getGender(), item.getColor(), item.getMaterial(),
+                    type);
+        }
+    }
 
     /**
      * Add a new HouseholdItem to inventory.
