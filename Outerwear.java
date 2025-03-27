@@ -58,22 +58,12 @@ public class Outerwear extends ClothingItem {
     // Setters
     /**
      * Sets the type of outerwear
-     * @param type
+     * @param type The type of outerwear
      */
     public void setType(String type) {this.type = type;}
     /**
      * Sets whether the outerwear is waterproof or not
-     * @param isWaterproof
+     * @param isWaterproof If the item is waterproof
      */
     public void setWaterproof(Boolean isWaterproof) {this.isWaterproof = isWaterproof;}
-
-    /**
-     *
-     *
-     * @return String
-     */
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

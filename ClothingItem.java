@@ -70,31 +70,22 @@ public class ClothingItem extends StoreItem{
     // Setters
     /**
      * Sets the size of the item
-     * @param size
+     * @param size the size of the item
      */
     public void setSize(String size) {this.size = size;}
     /**
      * Sets the gender of the item
-     * @param gender
+     * @param gender the gender of the item (if applicable)
      */
     public void setGender(String gender) {this.gender = gender;}
     /**
      * Sets the color of the item
-     * @param color
+     * @param color the color of the item
      */
     public void setColor(String color) {this.color = color;}
     /**
      * Sets the material of the item
-     * @param material
+     * @param material the material the item is made from
      */
     public void setMaterial(String material) {this.material = material;}
-
-    /**
-     *
-     * @return String
-     */
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }
