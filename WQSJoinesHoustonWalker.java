@@ -473,6 +473,35 @@ public class WQSJoinesHoustonWalker {
                                 // ClothingItem
                                 // FIXME
                                 displayClothingItems(clothingArray);
+
+                                // FIX THIS CODE
+                                System.out.print("Would you like to add stock of an existing item (1), or add a new item (2)? ");
+                                int ciAction = sc.nextInt();
+                                // Sink newline
+                                sc.nextLine();
+                                if (ciAction == 1) {
+                                    System.out.print("Enter item name: ");
+                                    String name = sc.nextLine();
+                                    System.out.print("Enter item brand: ");
+                                    String brand = sc.nextLine();
+
+                                    for (ClothingItem item : clothingArray) {
+                                        if (item.getName().equalsIgnoreCase(name) && item.getBrand().equalsIgnoreCase(brand)) {
+                                            System.out.print("Enter amount of stock to add: ");
+                                            int newStockCount = sc.nextInt();
+                                            sc.nextLine();
+                                            item.addStockCount(newStockCount);
+                                            System.out.printf("%s now has %d stock. ", name, item.getStockCount());
+                                            break;
+                                        }
+                                    }
+                                } else if (ciAction == 2) {
+                                    // Add new item
+                                    createNewClothingItem(sc, clothingArray);
+                                } else {
+                                    // Invalid action
+                                    System.out.println("Invalid selection (must be 1 or 2)!");
+                                }
                                 break;
                             case 4:
                                 // HouseholdItem
@@ -699,15 +728,15 @@ public class WQSJoinesHoustonWalker {
     }
 
     /**
-     * Add a new HouseholdItem to inventory.
+     * Add a new food item to inventory.
      *
      * @param sc The Scanner to read input from
-     * @param householdArray The array to add the household item to
+     * @param foodArray The array to add the new food item to
      */
-    public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
-        System.out.print("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)): ");
+    public static void createNewFoodItem(Scanner sc, ArrayList<FoodItem> foodArray) {
+        System.out.print("What type of food item do you want to add, Fruit (1), Vegetable (2), or Shelf-Stable (3)? ");
         int typeChoice = sc.nextInt();
-        sc.nextLine();
+        // Absorb newline
 
         System.out.print("Enter item name: ");
         String name = sc.nextLine();
@@ -720,24 +749,24 @@ public class WQSJoinesHoustonWalker {
         String description = sc.nextLine();
         System.out.print("Enter return policy: ");
         String returnPolicy = sc.nextLine();
+        System.out.print("Enter expiration date: ");
+        String expirationDate = sc.nextLine();
+        System.out.print("Enter if perishable: ");
+        boolean isPerishable = sc.nextBoolean();
 
-        if (typeChoice == 1) { // Cleaning Supply
-            System.out.print("Enter application method (e.g., Spray, Pour, Mop): ");
-            String applicationMethod = sc.nextLine();
-            System.out.print("Enter use method (e.g., Wipe with cloth, Scrub with sponge): ");
-            String useMethod = sc.nextLine();
-
-            householdArray.add(new CleaningSupply(name, description, brand, price, returnPolicy, applicationMethod, useMethod));
-        } else if (typeChoice == 2) { // Furniture
-            System.out.print("Enter furniture material: ");
-            String material = sc.nextLine();
-
-            householdArray.add(new Furniture(name, description, brand, price, returnPolicy, material));
+        if (typeChoice == 1) {
+            // Fruit
+            foodArray.add(new Fruit(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
+        } else if (typeChoice == 2) {
+            // Vegetable
+            foodArray.add(new Vegetable(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
+        } else if (typeChoice == 3) {
+            // Shelf-Stable
+            foodArray.add(new ShelfStable(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
         } else {
-            System.out.println("Invalid choice. Item not added.");
+            // Invalid answer
+            System.out.println("Invalid answer! Selection must be 1, 2, or 3!");
         }
-
-        System.out.println("Item successfully added to inventory!");
     }
 
     public static void createNewElectronicsItem(Scanner sc, ArrayList<ElectronicsItem> electronicsArray) {
@@ -779,15 +808,20 @@ public class WQSJoinesHoustonWalker {
     }
 
     /**
-     * Add a new food item to inventory.
+     * FIXME
+     */
+    public static void createNewClothingItem(Scanner sc, ArrayList<ClothingItem> clothingArray) {}
+
+    /**
+     * Add a new HouseholdItem to inventory.
      *
      * @param sc The Scanner to read input from
-     * @param foodArray The array to add the new food item to
+     * @param householdArray The array to add the household item to
      */
-    public static void createNewFoodItem(Scanner sc, ArrayList<FoodItem> foodArray) {
-        System.out.print("What type of food item do you want to add, Fruit (1), Vegetable (2), or Shelf-Stable (3)? ");
+    public static void createNewHouseholdItem(Scanner sc, ArrayList<HouseholdItem> householdArray) {
+        System.out.print("What type of household item would you like to add? (Cleaning Supply (1) or Furniture (2)): ");
         int typeChoice = sc.nextInt();
-        // Absorb newline
+        sc.nextLine();
 
         System.out.print("Enter item name: ");
         String name = sc.nextLine();
@@ -800,24 +834,24 @@ public class WQSJoinesHoustonWalker {
         String description = sc.nextLine();
         System.out.print("Enter return policy: ");
         String returnPolicy = sc.nextLine();
-        System.out.print("Enter expiration date: ");
-        String expirationDate = sc.nextLine();
-        System.out.print("Enter if perishable: ");
-        boolean isPerishable = sc.nextBoolean();
 
-        if (typeChoice == 1) {
-            // Fruit
-            foodArray.add(new Fruit(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
-        } else if (typeChoice == 2) {
-            // Vegetable
-            foodArray.add(new Vegetable(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
-        } else if (typeChoice == 3) {
-            // Shelf-Stable
-            foodArray.add(new ShelfStable(name, description, brand, price, returnPolicy, expirationDate, isPerishable));
+        if (typeChoice == 1) { // Cleaning Supply
+            System.out.print("Enter application method (e.g., Spray, Pour, Mop): ");
+            String applicationMethod = sc.nextLine();
+            System.out.print("Enter use method (e.g., Wipe with cloth, Scrub with sponge): ");
+            String useMethod = sc.nextLine();
+
+            householdArray.add(new CleaningSupply(name, description, brand, price, returnPolicy, applicationMethod, useMethod));
+        } else if (typeChoice == 2) { // Furniture
+            System.out.print("Enter furniture material: ");
+            String material = sc.nextLine();
+
+            householdArray.add(new Furniture(name, description, brand, price, returnPolicy, material));
         } else {
-            // Invalid answer
-            System.out.println("Invalid answer! Selection must be 1, 2, or 3!");
+            System.out.println("Invalid choice. Item not added.");
         }
+
+        System.out.println("Item successfully added to inventory!");
     }
 
 }
