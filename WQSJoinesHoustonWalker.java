@@ -872,6 +872,7 @@ public class WQSJoinesHoustonWalker {
         System.out.print("What type of food item do you want to add, Fruit (1), Vegetable (2), or Shelf-Stable (3)? ");
         int typeChoice = sc.nextInt();
         // Absorb newline
+        sc.nextLine();
 
         System.out.print("Enter item name: ");
         String name = sc.nextLine();
@@ -888,6 +889,8 @@ public class WQSJoinesHoustonWalker {
         String expirationDate = sc.nextLine();
         System.out.print("Enter if perishable: ");
         boolean isPerishable = sc.nextBoolean();
+        // Consume newline
+        sc.nextLine();
 
         if (typeChoice == 1) {
             // Fruit
