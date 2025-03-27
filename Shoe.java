@@ -58,12 +58,12 @@ public class Shoe extends ClothingItem {
     // Setters
     /**
      * Sets the securement type of the item
-     * @param securementType
+     * @param securementType the way the shoe is secured
      */
     public void setSecurementType(String securementType) {this.securementType = securementType;}
     /**
      * Sets the type of the item
-     * @param type
+     * @param type the type of shoe
      */
     public void setType(String type) {this.type = type;}
 
