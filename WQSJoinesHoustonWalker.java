@@ -175,12 +175,129 @@ public class WQSJoinesHoustonWalker {
                                 break;
                             case 2:
                                 // ElectronicsItem
+                                /* This is a preliminary implementation of purchasing.
+                                 * Note: This needs to be refactored to support the cart, and looping.
+                                 */
+                                displayFoodItemsWithNumbers(foodArray);
+                                System.out.print("Which item to purchase (input number here): ");
+                                // Note: This number starts from 1.
+                                int eiIndex = sc.nextInt();
+
+                                if (eiIndex > electronicsArray.size() || eiIndex <= 0) {
+                                    // Out-of-bounds
+                                    System.out.println("That is an invalid item number!");
+                                    break;
+                                }
+
+                                ElectronicsItem eiItem = electronicsArray.get(eiIndex - 1);
+
+                                if (eiItem.getStockCount() == 0) {
+                                    // Can't buy something which is out of stock.
+                                    System.out.printf("%s is out of stock.\n",
+                                                      eiItem.getName());
+                                    sc.nextLine(); // Consume newline
+                                    break;
+                                }
+
+                                System.out.printf("%s has %d stock.\n",
+                                                  eiItem.getName(),
+                                                  eiItem.getStockCount());
+
+                                System.out.print("Enter amount to purchase: ");
+                                // Purchase count
+                                int eiPurCount = sc.nextInt();
+                                sc.nextLine();
+                                if (eiPurCount <= 0) {
+                                    System.out.println("Invalid answer. You must purchase at least 1!");
+                                    break;
+                                }
+                                // Add to cart.
+                                CartItem eiCartItem = new CartItem(eiItem, eiPurCount);
+                                electronicsCart.add(eiCartItem);
                                 break;
                             case 3:
                                 // ClothingItem
+                                /* This is a preliminary implementation of purchasing.
+                                 * Note: This needs to be refactored to support the cart, and looping.
+                                 */
+                                displayFoodItemsWithNumbers(foodArray);
+                                System.out.print("Which item to purchase (input number here): ");
+                                // Note: This number starts from 1.
+                                int ciIndex = sc.nextInt();
+
+                                if (ciIndex > clothingArray.size() || ciIndex <= 0) {
+                                    // Out-of-bounds
+                                    System.out.println("That is an invalid item number!");
+                                    break;
+                                }
+
+                                ClothingItem ciItem = clothingArray.get(ciIndex - 1);
+
+                                if (ciItem.getStockCount() == 0) {
+                                    // Can't buy something which is out of stock.
+                                    System.out.printf("%s is out of stock.\n",
+                                                      ciItem.getName());
+                                    sc.nextLine(); // Consume newline
+                                    break;
+                                }
+
+                                System.out.printf("%s has %d stock.\n",
+                                                  ciItem.getName(),
+                                                  ciItem.getStockCount());
+
+                                System.out.print("Enter amount to purchase: ");
+                                // Purchase count
+                                int ciPurCount = sc.nextInt();
+                                sc.nextLine();
+                                if (ciPurCount <= 0) {
+                                    System.out.println("Invalid answer. You must purchase at least 1!");
+                                    break;
+                                }
+                                // Add to cart.
+                                CartItem ciCartItem = new CartItem(ciItem, ciPurCount);
+                                clothingCart.add(ciCartItem);
                                 break;
                             case 4:
                                 // HouseholdItem
+                                /* This is a preliminary implementation of purchasing.
+                                 * Note: This needs to be refactored to support the cart, and looping.
+                                 */
+                                displayFoodItemsWithNumbers(foodArray);
+                                System.out.print("Which item to purchase (input number here): ");
+                                // Note: This number starts from 1.
+                                int hiIndex = sc.nextInt();
+
+                                if (hiIndex > householdArray.size() || hiIndex <= 0) {
+                                    // Out-of-bounds
+                                    System.out.println("That is an invalid item number!");
+                                    break;
+                                }
+
+                                HouseholdItem hiItem = householdArray.get(hiIndex - 1);
+
+                                if (hiItem.getStockCount() == 0) {
+                                    // Can't buy something which is out of stock.
+                                    System.out.printf("%s is out of stock.\n",
+                                                      hiItem.getName());
+                                    sc.nextLine(); // Consume newline
+                                    break;
+                                }
+
+                                System.out.printf("%s has %d stock.\n",
+                                                  hiItem.getName(),
+                                                  hiItem.getStockCount());
+
+                                System.out.print("Enter amount to purchase: ");
+                                // Purchase count
+                                int hiPurCount = sc.nextInt();
+                                sc.nextLine();
+                                if (hiPurCount <= 0) {
+                                    System.out.println("Invalid answer. You must purchase at least 1!");
+                                    break;
+                                }
+                                // Add to cart.
+                                CartItem hiCartItem = new CartItem(hiItem, hiPurCount);
+                                householdCart.add(hiCartItem);
                                 break;
                             default:
                                 // Invalid selection
