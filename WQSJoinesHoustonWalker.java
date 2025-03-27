@@ -72,6 +72,22 @@ public class WQSJoinesHoustonWalker {
         householdArray.add(new Furniture("Sofa", "Comfortable 3-seater", "La-Z-Boy", 499.99, "120 days", "Fabric"));
         householdArray.add(new Furniture("Bed Frame", "Queen size frame", "Wayfair", 299.99, "45 days", "Metal"));
 
+        // Adding Electronics items
+        electronicsArray.add(new Laptop("Gaming Laptop", "High-performance laptop", "Alienware", 1500.99, "30-day return", 15.6, 9.0));
+        electronicsArray.add(new Laptop("Ultrabook", 999.99, 14.0, 8.0));
+        electronicsArray.add(new Phone("Smartphone X", "Flagship phone", "TechBrand", 899.49, "14-day return", 6.1, 2.8));
+        electronicsArray.add(new Phone("Budget Phone", 299.99, 6.5, 3.0));
+        electronicsArray.add(new TV("4K Smart TV", "High-resolution television", "Sony", 1200.75, "60-day return", 55.0, 30.0));
+        electronicsArray.add(new TV("LED TV", 499.99, 42.0, 25.0));
+
+        //Clothing Array
+        clothingArray.add(new Shirt("Casual T-Shirt", "Comfortable cotton shirt", "BrandA", 19.99, "30-day return", "M", "Unisex", "Blue", "Cotton", "T-Shirt"));
+        clothingArray.add(new Shirt("Formal Shirt", 29.99, "L", "Male", "White", "Polyester", "Dress Shirt"));
+        clothingArray.add(new Outerwear("Winter Jacket", "Warm and cozy", "BrandB", 89.99, "60-day return", "L", "Female", "Black", "Wool", "Jacket", true));
+        clothingArray.add(new Outerwear("Raincoat", 49.99, "M", "Unisex", "Yellow", "Synthetic", "Raincoat", true));
+
+
+
         boolean exitMainLoop = false;
         // Used to select item category within action selection
         int typeOfItem = 0;
