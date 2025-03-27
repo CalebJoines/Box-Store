@@ -1,4 +1,4 @@
-public class ElectronicsItem extends StoreItem{
+public class ElectronicsItem extends StoreItem {
 
     private double screenWidth;
     private double screenHeight;
@@ -13,4 +13,18 @@ public class ElectronicsItem extends StoreItem{
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
     }
+
+    /**
+     * Get the screen's physical width.
+     *
+     * @return Screen width (in inches)
+     */
+    public double getScreenWidth() {return screenWidth;}
+
+    /**
+     * Gets the screen's physical height.
+     *
+     * @return Screen height (in inches)
+     */
+    public double getScreenHeight() {return screenHeight;}
 }
